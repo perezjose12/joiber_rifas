@@ -1,0 +1,6 @@
+{
+  "crons": [
+    { "path": "/api/actualizar-tasa", "schedule": "0 13 * * *" },
+    { "path": "/api/actualizar-tasa", "schedule": "0 18 * * *" }
+  ]
+}

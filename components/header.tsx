@@ -6,12 +6,12 @@ export function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-serif font-bold text-lg">JS</span>
+            <div className="w-20 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-serif font-bold text-lg">J Y M</span>
             </div>
             <div>
-              <h1 className="font-serif font-bold text-xl text-gray-900">Joiber Sevillano</h1>
-              <p className="text-sm text-gray-600">Rifas Exclusivas</p>
+              <h1 className="font-serif font-bold text-xl text-gray-900">Rifas J Y M</h1>
+              <p className="text-sm text-gray-600">VIP Joiber Sevillano</p>
             </div>
           </div>
 

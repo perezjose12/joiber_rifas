@@ -27,7 +27,7 @@ export function RaffleSection() {
 
             <CardHeader className="pb-4">
               <CardTitle className="font-serif text-2xl md:text-3xl text-gray-900">
-                Gran Rifa 2025
+                Gran Rifa 2025 J Y M
               </CardTitle>
               <div className="">
                 <p className="text-gray-600 mb-4">
@@ -50,7 +50,7 @@ export function RaffleSection() {
                   <Gift className="h-5 w-5 text-green-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Precio</p>
-                    <p className="text-sm text-gray-600">$1.5 por ticket</p>
+                    <p className="text-sm text-gray-600">$1 por ticket</p>
                   </div>
                 </div>
               </div>
