@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
-import { RaffleSection } from "@/components/raffle-section"
-import { PaymentMethods } from "@/components/payment-methods"
+import { RaffleSection } from "@/components/raffleSection"
+import { PaymentMethods } from "@/components/paymentMethods"
 import { Footer } from "@/components/footer"
 
 export default function HomePage() {

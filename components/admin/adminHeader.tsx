@@ -1,0 +1,77 @@
+"use client"
+import { signOut } from "next-auth/react"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Menu } from "lucide-react"
+
+export function AdminHeader() {
+
+  return (
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center space-x-2">
+          <div className="w-20 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span className="text-white font-serif font-bold text-lg">ADMIN</span>
+          </div>
+          <h1 className="font-serif font-bold text-xl text-gray-900">Panel Admin</h1>
+        </div>
+
+        {/* Navegación Desktop */}
+        <nav className="hidden md:flex items-center space-x-6">
+          <a href="/admin" className="text-gray-700 hover:text-blue-600 transition-colors">
+            Dashboard
+          </a>
+          <a href="/admin/tickets" className="text-gray-700 hover:text-blue-600 transition-colors">
+            Tickets
+          </a>
+          <a href="/admin/images" className="text-gray-700 hover:text-blue-600 transition-colors">
+            Imágenes
+          </a>
+          <a href="/admin/users" className="text-gray-700 hover:text-blue-600 transition-colors">
+            Usuarios
+          </a>
+          <Button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="bg-red-500 hover:bg-red-600 text-white"
+          >
+            Cerrar sesión
+          </Button>
+        </nav>
+
+        {/* Navegación Mobile */}
+        <div className="md:hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem asChild>
+                <a href="/admin">Dashboard</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/admin/tickets">Tickets</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/admin/imagenes">Imágenes</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/admin/usuarios">Usuarios</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                🚪 Cerrar sesión
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </header>
+  )
+}

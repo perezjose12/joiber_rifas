@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import FormularioPago from "./formulario-pago";
-import { useTasa } from "../hooks/useTasaDiaBs";
+import FormularioPago from "./formularioPago";
 import { VerifyTicket } from "./verifyTicket";
 type Dato = { label: string; valor: string };
 type Metodo = {
@@ -14,12 +13,11 @@ type Metodo = {
 };
 
 export function PaymentMethods() {
-  const { tasa } = useTasa();
   const [open, setOpen] = useState<string | null>(null);
   const ticketPrice = 1;
-  const [tickets, setTickets] = useState(1);
+  const [tickets, setTickets] = useState(2);
   const maxTickets = 100;
-  const minTickets = 1;
+  const minTickets = 2;
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
 
   const quickSelect = [2, 5, 10, 20, 50, 100];
@@ -28,6 +26,7 @@ export function PaymentMethods() {
   const decrement = () => setTickets((prev) => Math.max(prev - 1, minTickets));
   const selectTickets = (value: number) =>
     setTickets(Math.min(Math.max(value, minTickets), maxTickets));
+  const tasa_ves = 135.64;
   const metodos: Metodo[] = [
     {
       id: "bancolombia",
@@ -37,9 +36,8 @@ export function PaymentMethods() {
         { label: "Titular", valor: "Joiber Sevillano" },
         { label: "Cuenta Ahorros", valor: "01234567890" },
         { label: "Cédula", valor: "1012345678" },
-        { label: "Total a pagar", valor: `${(tickets * ticketPrice).toFixed(2)} COP` },
+        { label: "Total a pagar", valor: "" },
       ],
-      
     },
     {
       id: "zelle",
@@ -48,7 +46,7 @@ export function PaymentMethods() {
       datos: [
         { label: "Titular", valor: "Joiber Sevillano" },
         { label: "Email", valor: "joiberSevillano@example.com" },
-        { label: "Total a pagar", valor: `${(tickets * ticketPrice)} USD` },
+        { label: "Total a pagar", valor: "" },
       ],
     },
     {
@@ -59,7 +57,7 @@ export function PaymentMethods() {
         { label: "Usuario", valor: "cryptoJoiber" },
         { label: "Email", valor: "Joiber@example.com" },
         { label: "Red", valor: "TRC20" },
-        { label: "Total a pagar", valor: `${(tickets * ticketPrice)} USDT` },
+        { label: "Total a pagar", valor: "" },
       ],
     },
     {
@@ -72,11 +70,25 @@ export function PaymentMethods() {
         { label: "Tipo de cuenta", valor: "Pago móvil" },
         { label: "Número de teléfono", valor: "0424435357" },
         { label: "C.I.", valor: "V-12345678" },
-        { label: "Total a pagar", valor: `${(tickets * ticketPrice * (tasa || 1)).toFixed(2)} Bs` },
+        { label: "Total a pagar", valor: "" },
       ],
     },
   ];
 
+  const calcularTotal = (metodoId: string) => {
+    switch (metodoId) {
+      case "bancolombia":
+        return (tickets * 4000).toFixed(3) + " COP";
+      case "zelle":
+        return (tickets * ticketPrice) + " USD";
+      case "binance":
+        return (tickets * ticketPrice) + " USDT";
+      case "bancoVenezuela":
+        return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2) + " Bs";
+      default:
+        return "";
+    }
+  };
 
 
   const handleCopy = async (texto: string, id: string) => {
@@ -138,9 +150,8 @@ export function PaymentMethods() {
               <button
                 key={num}
                 onClick={() => selectTickets(num)}
-                className={`px-3 py-1 rounded border ${
-                  tickets === num ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"
-                }`}
+                className={`px-3 py-1 rounded border ${tickets === num ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"
+                  }`}
               >
                 {num}
               </button>
@@ -182,6 +193,11 @@ export function PaymentMethods() {
                 {m.datos.map((d, idx) => {
                   const rowId = `${m.id}-${idx}`;
                   const isCopied = copiadoId === rowId;
+
+                  // Si es el total, reemplazamos valor
+                  const valorFinal =
+                    d.label === "Total a pagar" ? calcularTotal(m.id) : d.valor;
+
                   return (
                     <div
                       key={rowId}
@@ -189,15 +205,14 @@ export function PaymentMethods() {
                     >
                       <div className="truncate">
                         <span className="font-semibold">{d.label}:</span>{" "}
-                        <span className="break-all">{d.valor}</span>
+                        <span className="break-all">{valorFinal}</span>
                       </div>
                       <button
-                        onClick={() => handleCopy(d.valor, rowId)}
-                        className={`shrink-0 text-xs rounded px-2 py-1 border ${
-                          isCopied
+                        onClick={() => handleCopy(valorFinal, rowId)}
+                        className={`shrink-0 text-xs rounded px-2 py-1 border ${isCopied
                             ? "bg-green-500 text-white border-green-500"
                             : "text-blue-600 hover:text-blue-800"
-                        }`}
+                          }`}
                         aria-label={`Copiar ${d.label}`}
                       >
                         {isCopied ? "Copiado" : "Copiar"}
@@ -218,7 +233,7 @@ export function PaymentMethods() {
         </p>
       </div>
 
-      <FormularioPago />
+      <FormularioPago tickets={tickets} tasaVes={tasa_ves}/>
       <VerifyTicket />
     </section>
   );

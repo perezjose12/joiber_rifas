@@ -27,7 +27,7 @@ export function RaffleSection() {
 
             <CardHeader className="pb-4">
               <CardTitle className="font-serif text-2xl md:text-3xl text-gray-900">
-                Gran Rifa 2025 J Y M
+                Rifas J Y M
               </CardTitle>
               <div className="">
                 <p className="text-gray-600 mb-4">
