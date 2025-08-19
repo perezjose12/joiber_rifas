@@ -1,6 +1,0 @@
-{
-  "crons": [
-    { "path": "/api/conversiones", "schedule": "0 13 * * *" },
-    { "path": "/api/conversiones", "schedule": "0 18 * * *" }
-  ]
-}

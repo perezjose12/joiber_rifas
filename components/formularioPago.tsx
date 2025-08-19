@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 type FormData = {
   email: string;
   name: string;
@@ -23,19 +24,19 @@ const bancos = [
   { id: 4, name: 'Binance', img: '/binance.png', moneda: 'USD' },
 ]
 const calcularTotal = (metodoId: number, tickets: number, ticketPrice: number, tasa_ves: number) => {
-    switch (metodoId) {
-      case 1:
-        return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2) ;
-      case 2:
-        return (tickets * 4000).toFixed(3);
-      case 3:
-        return (tickets * ticketPrice);
-      case 4:
-        return (tickets * ticketPrice);
-      default:
-        return "";
-    }
-  };
+  switch (metodoId) {
+    case 1:
+      return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2);
+    case 2:
+      return (tickets * 4000).toFixed(3);
+    case 3:
+      return (tickets * ticketPrice);
+    case 4:
+      return (tickets * ticketPrice);
+    default:
+      return "";
+  }
+};
 export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
   const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<FormData>();
   const [archivo, setArchivo] = useState<File | null>(null);
@@ -123,12 +124,22 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
           });
 
           if (!reservarRes.ok) throw new Error('Error reservando tickets');
-          alert("Tickets reservados con exito");
+          Swal.fire({
+            title: "¡Enviado!",
+            text: "Tus datos se enviaron correctamente y pendiente de revisión",
+            icon: "success",
+            confirmButtonText: "Aceptar"
+          });
         } catch (error) {
           console.error('Error reservando tickets:', error);
         }
       } else {
-        alert(data.error || "Error subiendo imagen");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Ocurrio un error al enviar tus datos!",
+          footer: '<a href="#">Error: data.error</a>'
+        });
       }
     } catch (error) {
       console.error("Error al subir imagen:", error);
