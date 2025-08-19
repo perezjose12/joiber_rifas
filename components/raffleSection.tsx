@@ -1,30 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Users, Gift } from "lucide-react"
-import Image from "next/image"
 export function RaffleSection() {
   return (
-    <section id="rifas" className="py-20 px-4 bg-white">
+    <section id="rifas" className="py-0 px-4 bg-white">
       <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="font-serif font-bold text-4xl text-gray-900 mb-4">Rifa Actual</h2>
-          <p className="text-xl text-gray-600">¡No te pierdas esta increíble oportunidad!</p>
-        </div>
-
         <div className="max-w-4xl mx-auto">
           <Card className="overflow-hidden shadow-xl border-0">
-            <div className="relative">
-              <Image
-                src="/kbr.png"
-                alt="Productos de la rifa actual"
-                className="w-full h-64 md:h-80 object-cover"
-                width={500}
-                height={500}
-              />
-              <Badge className="absolute top-4 left-4 bg-red-600 text-white font-semibold px-3 py-1">¡ACTIVA!</Badge>
-            </div>
-
             <CardHeader className="pb-4">
               <CardTitle className="font-serif text-2xl md:text-3xl text-gray-900">
                 Rifas J Y M
@@ -66,13 +48,16 @@ export function RaffleSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold">
+                <Button
+                  size="lg"
+                  className="sm:flex-1 w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold"
+                >
                   Participar Ahora
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="flex-1 border-red-600 text-red-600 hover:bg-red-50 bg-transparent"
+                  className="sm:flex-1 w-full border-red-600 text-red-600 hover:bg-red-50 bg-transparent"
                 >
                   Más Información
                 </Button>
