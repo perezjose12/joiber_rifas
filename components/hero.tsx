@@ -7,7 +7,7 @@ export function Hero() {
       <div className="container mx-auto text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-serif font-bold text-5xl md:text-6xl text-text-light dark:text-text-dark mb-6 pb-3">
-            MOTO BRF 0K + IPhone 16 de Estrenar
+            MOTO BRF 0KM + IPhone 16 de Estrenar
           </h1>
 
           <Swiper />

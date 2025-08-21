@@ -85,11 +85,17 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
   }
   const onSubmit = async (datos: FormData) => {
     if (tickets < 2 || tickets >= 100) {
-      alert(`No puedes comprar menos de 2 tickets o mas de 100 tickets, por ticket`);
+      Swal.fire({
+        icon: "error",
+        text: "No puedes comprar menos de 2 tickets o mas de 100 tickets, por ticket",
+      });
       return;
     }
     if (!archivo) {
-      alert("Selecciona un archivo");
+      Swal.fire({
+        icon: "error",
+        text: "Tienes que seleccionar un archivo",
+      });
       return;
     }
     const formData = new FormData();
@@ -274,7 +280,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             name="archivo"
             required
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
             className="hidden"
             onChange={(e) => handleFileChange(e)}
           />

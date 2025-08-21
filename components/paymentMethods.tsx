@@ -16,16 +16,57 @@ export function PaymentMethods() {
   const [open, setOpen] = useState<string | null>(null);
   const ticketPrice = 1;
   const [tickets, setTickets] = useState(2);
+  const [inputValue, setInputValue] = useState("2");
   const maxTickets = 100;
   const minTickets = 2;
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const quickSelect = [2, 5, 10, 20, 30, 50, 70, 100];
 
-  const quickSelect = [2, 5, 10, 20, 50, 100];
+  const validate = (val: string) => {
+    const num = Number(val);
+    if (val === "" || isNaN(num)) return `El número mínimo de tickets es ${minTickets}`;
+    if (num < minTickets) return `El número mínimo de tickets es ${minTickets}`;
+    if (num > maxTickets) return `El número máximo de tickets es ${maxTickets}`;
+    return "";
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
 
-  const increment = () => setTickets((prev) => Math.min(prev + 1, maxTickets));
-  const decrement = () => setTickets((prev) => Math.max(prev - 1, minTickets));
-  const selectTickets = (value: number) =>
-    setTickets(Math.min(Math.max(value, minTickets), maxTickets));
+    // permitir que escriba solo números
+    if (/^\d*$/.test(val)) {
+      setInputValue(val);
+     // Validación visual
+      const num = Number(val);
+      if (!isNaN(num)){
+        setTickets(num);
+        setError("");
+      }
+      // validar
+      const err = validate(val);
+      setError(err);
+    }
+  };
+
+  const increment = () => {
+    const newVal = Math.min(maxTickets, tickets + 1);
+    setTickets(newVal);
+    setInputValue(String(newVal));
+    setError(validate(String(newVal)));
+  };
+
+  const decrement = () => {
+    const newVal = Math.max(minTickets, tickets - 1);
+    setTickets(newVal);
+    setInputValue(String(newVal));
+    setError(validate(String(newVal)));
+  };
+  const selectTickets = (num: number) => {
+    const clamped = Math.max(minTickets, Math.max(maxTickets, num));
+    setTickets(clamped);
+    setInputValue(String(clamped));
+    setError(validate(String(clamped)));
+  }
   const tasa_ves = 135.64;
   const metodos: Metodo[] = [
     {
@@ -125,7 +166,8 @@ export function PaymentMethods() {
           <p className="text-sm text-gray-600 dark:text-gray-300">
             Mínimo {minTickets} y Máximo {maxTickets} Tickets por Compra
           </p>
-
+          {/* Mensaje de error */}
+         {error && <p className="text-red-500 text-sm mt-1 mb-2">{error}</p>}
           {/* Selector +/- */}
           <div className="flex items-center space-x-4 my-2">
             <button onClick={decrement} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded">
@@ -133,9 +175,11 @@ export function PaymentMethods() {
             </button>
             <input
               type="number"
-              value={tickets}
-              readOnly
-              className="w-16 text-center border rounded px-2 py-1"
+              value={inputValue}
+              onChange={handleChange}
+              className={`w-16 text-center border rounded px-2 py-1 ${error ? "border-red-900 bg-red-800" : "border-gray-900"}`}
+              min={minTickets}
+              max={maxTickets}
             />
             <button onClick={increment} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded">
               +
@@ -145,14 +189,14 @@ export function PaymentMethods() {
           <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">Selecciona una cantidad de Tickets</p>
 
           {/* Botones rápidos */}
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex justify-center flex-wrap gap-3 mt-2">
             {quickSelect.map((num) => (
               <button
                 key={num}
                 onClick={() => selectTickets(num)}
                 className={`px-3 py-1 rounded border ${tickets === num
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
                   } transition-colors duration-300`}
               >
                 {num}
@@ -164,6 +208,7 @@ export function PaymentMethods() {
             Tickets seleccionados: <strong>{tickets}</strong>
           </p>
         </div>
+        
       </div>
 
       {/* Métodos de pago */}
@@ -208,8 +253,8 @@ export function PaymentMethods() {
                       <button
                         onClick={() => handleCopy(valorFinal, rowId)}
                         className={`shrink-0 text-xs rounded px-2 py-1 border ${isCopied
-                            ? "bg-green-500 text-white border-green-500"
-                            : "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+                          ? "bg-green-500 text-white border-green-500"
+                          : "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
                           } transition-colors duration-300`}
                         aria-label={`Copiar ${d.label}`}
                       >

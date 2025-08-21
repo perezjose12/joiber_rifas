@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import AcceptReservationButton from "@/components/acceptPurchase/acceptReservationButton";
 type Purchase = {
@@ -27,33 +27,62 @@ const statusOptions = [
 
 export default function AdminPurchasesPage() {
     const [status, setStatus] = useState("pending");
-    const [purchases, setPurchases] = useState([]);
+    const [purchases, setPurchases] = useState<Purchase[]>([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
-    useEffect(() => {
-        async function fetchPurchases() {
+    const LIMIT = 2; // cuantos quieres traer por página
+
+    const fetchPurchases = useCallback(
+        async (reset = false) => {
             setLoading(true);
             try {
-                const res = await fetch(`/api/admin/purcharses?status=${status}`);
+                const res = await fetch(
+                    `/api/admin/purcharses?status=${status}&page=${reset ? 1 : page}&limit=${LIMIT}`
+                );
                 const data = await res.json();
-                setPurchases(data.purchases || []);
+
+                if (reset) {
+                    setPurchases(data.purchases || []);
+                    setPage(2);
+                } else {
+                    setPurchases((prev) => {
+                        const combined = [...prev, ...(data.purchases || [])];
+                        const unique = combined.filter(
+                            (p, index, self) => index === self.findIndex((x) => x.id === p.id)
+                        );
+                        return unique;
+                    });
+                    setPage((prev) => prev + 1);
+                }
+
+                // si devuelve menos del límite, significa que no hay más
+                setHasMore((data.purchases || []).length === LIMIT);
             } catch (err) {
                 console.error(err);
-                setPurchases([]);
+                if (reset) setPurchases([]);
             } finally {
                 setLoading(false);
             }
-        }
+        },
+        [status, page] // dependencias del useCallback
+    );
 
-        fetchPurchases();
-    }, [status]);
+    useEffect(() => {
+        fetchPurchases(true);
+    }, [status, fetchPurchases]);
 
     return (
         <div className="px-4 py-8 bg-gray-100 dark:bg-gray-900">
             <h1 className="text-2xl font-bold mb-4">Reservas</h1>
+
             {/* Filtro de status */}
             <div className="mb-6 w-full max-w-xs">
-                <label htmlFor="status" className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                    htmlFor="status"
+                    className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
                     Filtrar por estado
                 </label>
                 <div className="relative">
@@ -70,19 +99,23 @@ export default function AdminPurchasesPage() {
                             </option>
                         ))}
                     </select>
-                    {/* Icono de flecha hacia abajo */}
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500 dark:text-gray-400">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
                 </div>
             </div>
 
-            {loading && <p>Cargando...</p>}
+            {loading && purchases.length === 0 && <p>Cargando...</p>}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {purchases.map((p: Purchase) => (
+                {purchases.map((p) => (
                     <div
                         key={p.id}
                         className="border rounded p-4 shadow hover:shadow-lg transition"
@@ -91,7 +124,9 @@ export default function AdminPurchasesPage() {
                         <p>Email: {p.users.email}</p>
                         <p>Tel: {p.users.phone}</p>
                         <p>Tickets reservados: {p.tickets}</p>
-                        <p>Total pagado: {p.total_amount} {p.moneda_pago}</p>
+                        <p>
+                            Total pagado: {p.total_amount} {p.moneda_pago}
+                        </p>
                         <p>Banco: {p.banks.name}</p>
 
                         {p.proof_url && (
@@ -114,6 +149,19 @@ export default function AdminPurchasesPage() {
                     </div>
                 ))}
             </div>
+
+            {/* Botón de cargar más */}
+            {hasMore && (
+                <div className="mt-6 flex justify-center">
+                    <button
+                        onClick={() => fetchPurchases()}
+                        disabled={loading}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow disabled:opacity-50"
+                    >
+                        {loading ? "Cargando..." : "Cargar más"}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

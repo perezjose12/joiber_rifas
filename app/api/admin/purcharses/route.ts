@@ -1,6 +1,7 @@
 import { supabaseServer } from "@/lib/supabaseServer";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+
 // Tipos
 type SupaUser = { name: string; email: string; phone: string };
 type SupaBank = { name: string };
@@ -15,6 +16,7 @@ type Purchase = {
   users: SupaUser;
   banks: SupaBank;
 };
+
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -23,8 +25,11 @@ export async function GET(req: Request) {
 
   try {
     const url = new URL(req.url);
-    const statusFilter = url.searchParams.get("status");
-    // Obtener purchases y hacer join con users y banks
+    const statusFilter = url.searchParams.get("status") ?? undefined;
+    const limit = Number(url.searchParams.get("limit") ?? 10); // por defecto 10
+    const offset = Number(url.searchParams.get("offset") ?? 0);
+
+    // Obtener purchases con join
     const { data: purchases, error } = await supabaseServer
       .from("purchases")
       .select(`
@@ -37,7 +42,8 @@ export async function GET(req: Request) {
         users:users(name,email,phone),
         banks:banks(name)
       `)
-      .eq("status", statusFilter);
+      .eq("status", statusFilter || "pending") // filtro opcional
+      .range(offset, offset + limit - 1); // paginación
 
     if (error) throw error;
 
@@ -56,29 +62,9 @@ export async function GET(req: Request) {
         banks: bankObj ?? { name: "" },
       };
     });
-    // Generar signed URLs si bucket privado
-    const purchasesWithUrls = await Promise.all(
-      purchasesSingle.map(async (p: Purchase) => {
-        let proofUrl = p.proof_url;
-        if (proofUrl && !proofUrl.startsWith("http")) {
-          const { data, error } = await supabaseServer
-            .storage
-            .from("rifas_jym")
-            .createSignedUrl(proofUrl, 60); // 60 segundos de expiración
-          if (!error && data) proofUrl = data.signedUrl;
-        }
-        return { ...p, proof_url: proofUrl };
-      })
-    );
 
-    return new Response(JSON.stringify({ purchases: purchasesWithUrls }), { status: 200 });
+    return new Response(JSON.stringify({ purchases: purchasesSingle }), { status: 200 });
   } catch (err: unknown) {
-    let message = "Error desconocido";
-
-    if (err instanceof Error) {
-      message = err.message;
-    }
-
-    return new Response(JSON.stringify({ error: message }), { status: 500 });
+    return new Response(JSON.stringify({ error: (err as Error).message }), { status: 500 });
   }
 }
