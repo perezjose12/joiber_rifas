@@ -8,37 +8,44 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Menu } from "lucide-react"
-
+import ThemeSwitcher from "../theme/ThemeSwitcher"
+import Link from "next/link"
 export function AdminHeader() {
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <div className="w-20 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-serif font-bold text-lg">ADMIN</span>
           </div>
-          <h1 className="font-serif font-bold text-xl text-gray-900">Panel Admin</h1>
+          <h1 className="font-serif font-bold text-xl text-gray-900 dark:text-gray-100">Panel Admin</h1>
         </div>
-
+        <ThemeSwitcher />
         {/* Navegación Desktop */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="/admin" className="text-gray-700 hover:text-blue-600 transition-colors">
+          <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
+            Inicio
+          </Link>
+          <Link href="/admin" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
             Dashboard
-          </a>
-          <a href="/admin/tickets" className="text-gray-700 hover:text-blue-600 transition-colors">
+          </Link>
+
+          <Link href="/admin/tickets" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
             Tickets
-          </a>
-          <a href="/admin/images" className="text-gray-700 hover:text-blue-600 transition-colors">
+          </Link>
+
+          <Link href="/admin/images" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
             Imágenes
-          </a>
-          <a href="/admin/users" className="text-gray-700 hover:text-blue-600 transition-colors">
+          </Link>
+
+          <Link href="/admin/users" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
             Usuarios
-          </a>
+          </Link>
           <Button
             onClick={() => signOut({ callbackUrl: "/" })}
-            className="bg-red-500 hover:bg-red-600 text-white"
+            className="bg-red-500 hover:bg-red-600 text-white transition-colors"
           >
             Cerrar sesión
           </Button>
@@ -54,13 +61,16 @@ export function AdminHeader() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuItem asChild>
+                <Link href="/">Inicio</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <a href="/admin">Dashboard</a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a href="/admin/tickets">Tickets</a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="/admin/imagenes">Imágenes</a>
+                <a href="/admin/images">Imágenes</a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a href="/admin/usuarios">Usuarios</a>

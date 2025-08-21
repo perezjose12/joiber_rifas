@@ -4,7 +4,6 @@ import { Space_Grotesk, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "next-themes";
-
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
@@ -27,14 +26,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html 
-      lang="es" 
+    <html
+      lang="es"
       className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+            {children}
           <Analytics />
         </ThemeProvider>
       </body>
