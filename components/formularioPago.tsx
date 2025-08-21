@@ -87,7 +87,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
     if (tickets < 2 || tickets >= 100) {
       Swal.fire({
         icon: "error",
-        text: "No puedes comprar menos de 2 tickets o mas de 100 tickets, por ticket",
+        text: "No puedes comprar menos de 2 tickets o mas de 100 tickets",
       });
       return;
     }
