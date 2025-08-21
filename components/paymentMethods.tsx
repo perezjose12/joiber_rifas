@@ -29,9 +29,22 @@ export function PaymentMethods() {
   const tasa_ves = 135.64;
   const metodos: Metodo[] = [
     {
+      id: "bancoVenezuela",
+      nombre: "Banco de Venezuela",
+      icono: "/banco_venezuela.png",
+      datos: [
+        { label: "BDV", valor: "0102" },
+        { label: "Titular", valor: "Joiber Sevillano" },
+        { label: "Tipo de cuenta", valor: "Pago móvil" },
+        { label: "Número de teléfono", valor: "0424435357" },
+        { label: "C.I.", valor: "V-12345678" },
+        { label: "Total a pagar", valor: "" },
+      ],
+    },
+    {
       id: "bancolombia",
       nombre: "Bancolombia",
-      icono: "/bancolombia.png",
+      icono: "/bancolombia2.png",
       datos: [
         { label: "Titular", valor: "Joiber Sevillano" },
         { label: "Cuenta Ahorros", valor: "01234567890" },
@@ -59,20 +72,7 @@ export function PaymentMethods() {
         { label: "Red", valor: "TRC20" },
         { label: "Total a pagar", valor: "" },
       ],
-    },
-    {
-      id: "bancoVenezuela",
-      nombre: "Banco de Venezuela",
-      icono: "/banco_venezuela.png",
-      datos: [
-        { label: "BDV", valor: "0102" },
-        { label: "Titular", valor: "Joiber Sevillano" },
-        { label: "Tipo de cuenta", valor: "Pago móvil" },
-        { label: "Número de teléfono", valor: "0424435357" },
-        { label: "C.I.", valor: "V-12345678" },
-        { label: "Total a pagar", valor: "" },
-      ],
-    },
+    }
   ];
 
   const calcularTotal = (metodoId: string) => {
@@ -112,23 +112,23 @@ export function PaymentMethods() {
   };
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
+    <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-500" id="metodosPago">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-serif font-bold text-4xl text-gray-900 mb-4">Métodos de Pago</h2>
-          <p className="text-xl text-gray-600">Opciones seguras y accesibles para toda Latinoamérica</p>
+          <h2 className="font-serif font-bold text-4xl text-gray-900 dark:text-gray-100 mb-4">Métodos de Pago</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300">Opciones seguras y accesibles para toda Latinoamérica</p>
         </div>
 
         <div className="flex flex-col items-center justify-center p-4">
-          <h2 className="text-xl font-bold">COMPRAR TUS TICKETS</h2>
-          <p className="text-sm text-gray-600 font-bold">Cada ticket cuesta $1</p>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">COMPRAR TUS TICKETS</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-300 font-bold">Cada ticket cuesta $1</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Mínimo {minTickets} y Máximo {maxTickets} Tickets por Compra
           </p>
 
           {/* Selector +/- */}
           <div className="flex items-center space-x-4 my-2">
-            <button onClick={decrement} className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+            <button onClick={decrement} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded">
               -
             </button>
             <input
@@ -137,12 +137,12 @@ export function PaymentMethods() {
               readOnly
               className="w-16 text-center border rounded px-2 py-1"
             />
-            <button onClick={increment} className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+            <button onClick={increment} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded">
               +
             </button>
           </div>
 
-          <p className="text-sm text-gray-600 mt-2">Selecciona una cantidad de Tickets</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">Selecciona una cantidad de Tickets</p>
 
           {/* Botones rápidos */}
           <div className="flex flex-wrap gap-2 mt-2">
@@ -150,15 +150,17 @@ export function PaymentMethods() {
               <button
                 key={num}
                 onClick={() => selectTickets(num)}
-                className={`px-3 py-1 rounded border ${tickets === num ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"
-                  }`}
+                className={`px-3 py-1 rounded border ${tickets === num
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  } transition-colors duration-300`}
               >
                 {num}
               </button>
             ))}
           </div>
 
-          <p className="text-gray-700 mt-2">
+          <p className="text-gray-700 dark:text-gray-300 mt-2">
             Tickets seleccionados: <strong>{tickets}</strong>
           </p>
         </div>
@@ -167,10 +169,10 @@ export function PaymentMethods() {
       {/* Métodos de pago */}
       <div className="max-w-7xl mx-auto space-y-4 mt-12">
         {metodos.map((m) => (
-          <div key={m.id} className="border rounded-lg flex flex-col">
+          <div key={m.id} className="border rounded-lg flex flex-col bg-white dark:bg-gray-800 transition-colors duration-500">
             <button
               onClick={() => setOpen(open === m.id ? null : m.id)}
-              className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-50"
+              className="flex items-center gap-3 p-3 w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
               aria-expanded={open === m.id}
               aria-controls={`panel-${m.id}`}
             >
@@ -181,38 +183,34 @@ export function PaymentMethods() {
                 height={32}
                 className="w-8 h-8 object-contain"
               />
-              <span className="font-medium">{m.nombre}</span>
+              <span className="font-medium text-gray-900 dark:text-gray-100">{m.nombre}</span>
             </button>
 
             {open === m.id && (
               <div
                 id={`panel-${m.id}`}
-                className="bg-gray-100 p-3 border-t space-y-3 text-sm text-[1.0475rem]"
+                className="bg-gray-100 dark:bg-gray-700 p-3 border-t space-y-3 text-sm text-gray-700 dark:text-gray-300 transition-colors duration-300"
               >
-                {/* Cada fila con su botón de copiar */}
                 {m.datos.map((d, idx) => {
                   const rowId = `${m.id}-${idx}`;
                   const isCopied = copiadoId === rowId;
-
-                  // Si es el total, reemplazamos valor
-                  const valorFinal =
-                    d.label === "Total a pagar" ? calcularTotal(m.id) : d.valor;
+                  const valorFinal = d.label === "Total a pagar" ? calcularTotal(m.id) : d.valor;
 
                   return (
                     <div
                       key={rowId}
-                      className="flex items-center justify-between gap-3 bg-white rounded-md px-3 py-2 border"
+                      className="flex items-center justify-between gap-3 bg-white dark:bg-gray-800 rounded-md px-3 py-2 border transition-colors duration-300"
                     >
                       <div className="truncate">
-                        <span className="font-semibold">{d.label}:</span>{" "}
-                        <span className="break-all">{valorFinal}</span>
+                        <span className="font-semibold text-gray-900 dark:text-gray-100">{d.label}:</span>{" "}
+                        <span className="break-all text-gray-700 dark:text-gray-300">{valorFinal}</span>
                       </div>
                       <button
                         onClick={() => handleCopy(valorFinal, rowId)}
                         className={`shrink-0 text-xs rounded px-2 py-1 border ${isCopied
                             ? "bg-green-500 text-white border-green-500"
-                            : "text-blue-600 hover:text-blue-800"
-                          }`}
+                            : "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+                          } transition-colors duration-300`}
                         aria-label={`Copiar ${d.label}`}
                       >
                         {isCopied ? "Copiado" : "Copiar"}
@@ -227,13 +225,13 @@ export function PaymentMethods() {
       </div>
 
       <div className="text-center mt-12">
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
           Ten en cuenta que el proceso de verificación y validación de tu compra puede tardar entre
           24 y 48 horas aproximadamente. Los tickets se enviarán a tu correo electrónico.
         </p>
       </div>
 
-      <FormularioPago tickets={tickets} tasaVes={tasa_ves}/>
+      <FormularioPago tickets={tickets} tasaVes={tasa_ves} />
       <VerifyTicket />
     </section>
   );

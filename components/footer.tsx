@@ -1,5 +1,6 @@
 import { Instagram, Facebook } from "lucide-react"
 import { TikTokIcon } from "@/components/ui/icons/TikTokIcon";
+import Link from "next/link";
 export function Footer() {
   return (
     <footer id="contacto" className="bg-gray-900 text-white py-16">
@@ -25,36 +26,23 @@ export function Footer() {
           {/* Información de contacto */}
           <div className="space-y-4">
             <h4 className="font-serif font-bold text-lg mb-4">Contacto Directo</h4>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Instagram className="h-5 w-5 text-red-400" />
-                
-                <div>
-                  <p className="font-semibold">Instagram</p>
-                  <a href="https://www.instagram.com/joiber_prueba123/" className="text-gray-300 hover:text-white transition-colors">
-                    @joiber_prueba123
-                  </a>
-                </div>
+            <div className="space-y-4">
+              <div className="space-x-3">
+                <Link href="https://wa.me/573112341234" target="_blank">
+                  <Instagram className="h-7 w-7 text-red-400" />
+                </Link>
               </div>
 
               <div className="flex items-center space-x-3">
-                <Facebook className="h-5 w-5 text-blue-400" />
-                <div>
-                  <p className="font-semibold">Telegram</p>
-                  <a href="https://t.me/joibersevillano" className="text-gray-300 hover:text-white transition-colors">
-                    @joibersevillano
-                  </a>
-                </div>
+                <Link href="https://www.facebook.com/JoiberSevillano" target="_blank">
+                  <Facebook className="h-7 w-7 text-blue-400" />
+                </Link>
               </div>
 
               <div className="flex items-center space-x-3">
-                <TikTokIcon className="w-6 h-6 text-black" />
-                <div>
-                  <p className="font-semibold">Email</p>
-                  <a href="mailto:joiber@rifas.com" className="text-gray-300 hover:text-white transition-colors">
-                    @joiber@rifas.com
-                  </a>
-                </div>
+                <Link href="https://www.tiktok.com/@joibersevillano" target="_blank">
+                <TikTokIcon className="w-7 h-7 text-black" />
+                </Link>
               </div>
             </div>
           </div>

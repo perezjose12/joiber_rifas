@@ -1,71 +1,70 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Users, Gift } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Users, Gift } from "lucide-react";
+import RaffleProgress from "./progress/raffleProgress";
+import Link from "next/link";
 export function RaffleSection() {
   return (
-    <section id="rifas" className="py-0 px-4 bg-white">
+    <section id="rifas" className="py-0 px-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto">
-          <Card className="overflow-hidden shadow-xl border-0">
-            <CardHeader className="pb-4">
-              <CardTitle className="font-serif text-2xl md:text-3xl text-gray-900">
-                Rifas J Y M
-              </CardTitle>
-              <div className="">
-                <p className="text-gray-600 mb-4">
-                  Juega apenas se venda el 100% de los números, Todo depende de ustedes!!
-                </p>
-              </div>
-            </CardHeader>
-
+          <Card className="overflow-hidden shadow-xl border-0 pt-3 bg-white dark:bg-slate-800 transition-colors duration-500">
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <div className="flex items-center space-x-3">
                   <Users className="h-5 w-5 text-amber-600" />
-                  <div>
-                    <p className="font-semibold text-gray-900">Números vendidos</p>
-                    <p className="text-sm text-gray-600">1 / 4000</p>
+                  <div className="w-full">
+                    <p className="font-semibold text-gray-900 dark:text-gray-100">
+                      Números vendidos
+                    </p>
+                    <RaffleProgress raffleId={1} />
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
                   <Gift className="h-5 w-5 text-green-600" />
                   <div>
-                    <p className="font-semibold text-gray-900">Precio</p>
-                    <p className="text-sm text-gray-600">$1 por ticket</p>
+                    <p className="font-semibold text-gray-900 dark:text-gray-100">Precio</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">$1 por ticket</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="font-serif font-bold text-lg mb-4">Productos Incluidos:</h3>
-                <ul className="space-y-2 text-gray-700">
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 transition-colors duration-500">
+                <h3 className="font-serif font-bold text-lg mb-4 text-gray-900 dark:text-gray-100">
+                  Productos Incluidos:
+                </h3>
+                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                   <li className="flex items-center space-x-2">
                     <span className="w-2 h-2 bg-red-600 rounded-full"></span>
-                    <span>Moto KBR 600</span>
+                    <span>MOTO BRF 0K + IPhone 16 de Estrenar</span>
                   </li>
                 </ul>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="sm:flex-1 w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold"
-                >
-                  Participar Ahora
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="sm:flex-1 w-full border-red-600 text-red-600 hover:bg-red-50 bg-transparent"
-                >
-                  Más Información
-                </Button>
+                <Link href="/#metodosPago">
+                  <Button
+                    size="lg"
+                    className="sm:flex-1 w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold"
+                  >
+                    Participar Ahora
+                  </Button>
+                </Link>
+                <Link href="/#contacto">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="sm:flex-1 w-full border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 dark:hover:text-red-300 bg-transparent transition-colors duration-300"
+                  >
+                    Más Información
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
     </section>
-  )
+  );
 }

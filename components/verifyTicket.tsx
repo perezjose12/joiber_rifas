@@ -1,9 +1,9 @@
 export function VerifyTicket() {
   return (
-    <section className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-6 text-center space-y-4 mt-12">
-      <h4 className="text-lg font-semibold text-gray-800">
+    <section className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-6 text-center space-y-4 mt-12 dark:bg-gray-900">
+      <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
         ¿Quieres verificar tus tickets? <br />
-        <span className="text-gray-600 font-normal">
+        <span className="text-gray-600 dark:text-gray-100 font-normal">
           Ingresa el correo aquí:
         </span>
       </h4>
