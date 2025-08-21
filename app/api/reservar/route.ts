@@ -1,4 +1,4 @@
-import { supabasePublic } from '@/lib/supabasePublic';
+import { supabaseServer } from '@/lib/supabaseServer';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     }
 
     // 🔹 Llamada al procedimiento
-    const { data, error } = await supabasePublic.rpc("reserve_tickets", body);
+    const { data, error } = await supabaseServer.rpc("reserve_tickets", body);
 
     if (error) {
       console.error("Error reservando tickets:", error);
