@@ -1,8 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Users, Gift } from "lucide-react";
 import RaffleProgress from "./progress/raffleProgress";
-import Link from "next/link";
 export function RaffleSection() {
   return (
     <section id="rifas" className="py-0 px-4 bg-white dark:bg-gray-900">
@@ -40,26 +38,6 @@ export function RaffleSection() {
                     <span>MOTO BRF 0K + IPhone 16 de Estrenar</span>
                   </li>
                 </ul>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/#metodosPago">
-                  <Button
-                    size="lg"
-                    className="sm:flex-1 w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold"
-                  >
-                    Participar Ahora
-                  </Button>
-                </Link>
-                <Link href="/#contacto">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="sm:flex-1 w-full border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 dark:hover:text-red-300 bg-transparent transition-colors duration-300"
-                  >
-                    Más Información
-                  </Button>
-                </Link>
               </div>
             </CardContent>
           </Card>

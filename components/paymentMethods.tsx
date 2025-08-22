@@ -36,9 +36,9 @@ export function PaymentMethods() {
     // permitir que escriba solo números
     if (/^\d*$/.test(val)) {
       setInputValue(val);
-     // Validación visual
+      // Validación visual
       const num = Number(val);
-      if (!isNaN(num)){
+      if (!isNaN(num)) {
         setTickets(num);
         setError("");
       }
@@ -167,7 +167,7 @@ export function PaymentMethods() {
             Mínimo {minTickets} y Máximo {maxTickets} Tickets por Compra
           </p>
           {/* Mensaje de error */}
-         {error && <p className="text-red-500 text-sm mt-1 mb-2">{error}</p>}
+          {error && <p className="text-red-500 text-sm mt-1 mb-2">{error}</p>}
           {/* Selector +/- */}
           <div className="flex items-center space-x-4 my-2">
             <button onClick={decrement} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded">
@@ -208,7 +208,7 @@ export function PaymentMethods() {
             Tickets seleccionados: <strong>{tickets}</strong>
           </p>
         </div>
-        
+
       </div>
 
       {/* Métodos de pago */}
@@ -275,7 +275,13 @@ export function PaymentMethods() {
           24 y 48 horas aproximadamente. Los tickets se enviarán a tu correo electrónico.
         </p>
       </div>
-
+      <div className="text-center mb-10 mt-10">
+        <h2 className="font-serif font-bold text-lg mb-4 text-gray-900 dark:text-gray-100">
+          ¿Ya transferiste?
+          Llena este formulario
+          ⬇️
+        </h2>
+      </div>
       <FormularioPago tickets={tickets} tasaVes={tasa_ves} />
       <VerifyTicket />
     </section>

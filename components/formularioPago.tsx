@@ -105,7 +105,6 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
         method: "POST",
         body: formData,
       });
-
       const data = await res.json();
       const totalAmount = calcularTotal(selectedBanco.id, tickets, 1, tasaVes || 1);
       if (res.ok && data.url) {
@@ -218,7 +217,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
 
       <div className="mb-4">
         <label htmlFor="banco" className="block mb-1 font-medium text-gray-900 dark:text-gray-100">
-          <span className="text-red-500">*</span> Selecciona el banco al que harás la transferencia
+          <span className="text-red-500">*</span> Selecciona el banco al que hiciste la transferencia
         </label>
         <select
           id="banco"

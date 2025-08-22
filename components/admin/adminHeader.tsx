@@ -10,6 +10,7 @@ import {
 import { Menu } from "lucide-react"
 import ThemeSwitcher from "../theme/ThemeSwitcher"
 import Link from "next/link"
+import Image from "next/image"
 export function AdminHeader() {
 
   return (
@@ -17,10 +18,14 @@ export function AdminHeader() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <div className="w-20 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-serif font-bold text-lg">ADMIN</span>
+          <div>
+            <Image
+              src="/img/logo_2.png"
+              alt="Logo"
+              width={120}
+              height={120}
+            />
           </div>
-          <h1 className="font-serif font-bold text-xl text-gray-900 dark:text-gray-100">Panel Admin</h1>
         </div>
         <ThemeSwitcher />
         {/* Navegación Desktop */}

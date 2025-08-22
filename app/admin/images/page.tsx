@@ -8,7 +8,7 @@ type Purchase = {
     tickets: number;
     total_amount: number;
     moneda_pago: string;
-    proof_url: string;
+    proof_url: string | null;
     status: string;
     users: {
         name: string;
@@ -20,9 +20,9 @@ type Purchase = {
     };
 };
 const statusOptions = [
-    { label: "Pending", value: "pending" },
-    { label: "Approved", value: "approved" },
-    { label: "Cancelled", value: "cancelled" },
+    { label: "Pendiente", value: "pending" },
+    { label: "Aprobada", value: "approved" },
+    { label: "Cancelada", value: "cancelled" },
 ];
 
 export default function AdminPurchasesPage() {
@@ -38,11 +38,11 @@ export default function AdminPurchasesPage() {
         async (reset = false) => {
             setLoading(true);
             try {
+                const currentPage = reset ? 1 : page;
                 const res = await fetch(
-                    `/api/admin/purcharses?status=${status}&page=${reset ? 1 : page}&limit=${LIMIT}`
+                    `/api/admin/purcharses?status=${status}&page=${currentPage}&limit=${LIMIT}`
                 );
                 const data = await res.json();
-
                 if (reset) {
                     setPurchases(data.purchases || []);
                     setPage(2);
@@ -52,13 +52,15 @@ export default function AdminPurchasesPage() {
                         const unique = combined.filter(
                             (p, index, self) => index === self.findIndex((x) => x.id === p.id)
                         );
+                        // Ocultar botón si la última llamada trae menos de LIMIT
+                        setHasMore(data.purchases && data.purchases.length === LIMIT && unique.length > prev.length);
                         return unique;
                     });
-                    setPage((prev) => prev + 1);
+                    setPage(currentPage + 1);
                 }
 
-                // si devuelve menos del límite, significa que no hay más
-                setHasMore((data.purchases || []).length === LIMIT);
+                const fetchedCount = data.purchases?.length || 0;
+                setHasMore(fetchedCount === LIMIT);
             } catch (err) {
                 console.error(err);
                 if (reset) setPurchases([]);
@@ -66,11 +68,12 @@ export default function AdminPurchasesPage() {
                 setLoading(false);
             }
         },
-        [status, page] // dependencias del useCallback
+        [status]
     );
 
     useEffect(() => {
         fetchPurchases(true);
+
     }, [status, fetchPurchases]);
 
     return (
@@ -151,7 +154,7 @@ export default function AdminPurchasesPage() {
             </div>
 
             {/* Botón de cargar más */}
-            {hasMore && (
+            {hasMore && !loading && (
                 <div className="mt-6 flex justify-center">
                     <button
                         onClick={() => fetchPurchases()}

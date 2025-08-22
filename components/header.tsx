@@ -4,16 +4,22 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Menu } from "lucide-react"
 import ThemeSwitcher from "./theme/ThemeSwitcher";
-
+import Image from "next/image"
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 dark:bg-gray-900 backdrop-blur-sm border-b border-red-100">
+    <header className="sticky top-0 z-50 dark:bg-gray-900 backdrop-blur-sm border-b border-red-100"
+    style={{ zIndex: 9999999 }}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div>
-              <h1 className="font-serif font-bold text-xl text-gray-900 dark:text-gray-100">Rifas J Y M</h1>
+              <Image
+                src="/img/logo_4.png"
+                alt="Logo"
+                width={120}
+                height={100}
+              />
             </div>
           </div>
 

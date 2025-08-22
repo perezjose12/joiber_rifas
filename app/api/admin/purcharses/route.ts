@@ -26,8 +26,9 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const statusFilter = url.searchParams.get("status") ?? undefined;
-    const limit = Number(url.searchParams.get("limit") ?? 10); // por defecto 10
-    const offset = Number(url.searchParams.get("offset") ?? 0);
+    const page = Number(url.searchParams.get("page") ?? "1");
+    const limit = Number(url.searchParams.get("limit") ?? "2"); 
+    const offset = (page - 1) * limit;
 
     // Obtener purchases con join
     const { data: purchases, error } = await supabaseServer
