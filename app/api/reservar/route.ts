@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log(body);
     // 🔹 Validaciones
     if (!body.p_raffle_id || typeof body.p_raffle_id !== "number") {
       return NextResponse.json({ error: "Raffle ID inválido" }, { status: 400 });
@@ -53,8 +52,6 @@ export async function POST(req: Request) {
       console.error("Error reservando tickets:", error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.log(data);
-    console.log(body);
     return NextResponse.json({ tickets: data });
   } catch (err: unknown) {
     if (err instanceof Error) {

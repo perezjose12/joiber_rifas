@@ -38,7 +38,7 @@ const calcularTotal = (metodoId: number, tickets: number, ticketPrice: number, t
   }
 };
 export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
-  const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setError, clearErrors,reset, formState: { errors } } = useForm<FormData>();
   const [archivo, setArchivo] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedBanco, setSelectedBanco] = useState(bancos[0]);
@@ -135,6 +135,8 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             icon: "success",
             confirmButtonText: "Aceptar"
           });
+          reset();
+          setPreview(null);
         } catch (error) {
           console.error('Error reservando tickets:', error);
         }

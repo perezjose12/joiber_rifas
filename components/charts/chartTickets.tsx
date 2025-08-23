@@ -20,19 +20,25 @@ export default function SimpleTicketsBarChart({ data }: Props) {
     <div className="p-6 space-y-4">
       <h2 className="text-xl font-bold mb-4">Usuarios con más tickets</h2>
 
-      {data.map((user) => (
-        <div key={user.user_id}>
-          <p className="font-semibold mb-1">
-            {user.user_name} - {user.total_tickets} tickets
-          </p>
-          <div className="bg-gray-200 h-6 rounded">
-            <div
-              className="bg-blue-600 h-6 rounded"
-              style={{ width: `${(user.total_tickets / maxTickets) * 100}%` }}
-            />
+      {data
+        .filter(
+          (user): user is UserTickets & { ticket_numbers: number[] } =>
+            Array.isArray(user.ticket_numbers) &&
+            user.ticket_numbers.filter((n) => n != null).length > 0
+        )
+        .map((user) => (
+          <div key={user.user_id}>
+            <p className="font-semibold mb-1">
+              {user.user_name} - {user.total_tickets} tickets
+            </p>
+            <div className="bg-gray-200 h-6 rounded">
+              <div
+                className="bg-blue-600 h-6 rounded"
+                style={{ width: `${(user.total_tickets / maxTickets) * 100}%` }}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

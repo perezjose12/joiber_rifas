@@ -21,6 +21,7 @@ export async function GET(req: Request) {
         id,
         user_id,
         users (
+          phone,
           email,
           name
         )
@@ -34,7 +35,6 @@ export async function GET(req: Request) {
 
   return NextResponse.json({ winners: data });
 }
-
 // ---------------------- POST ----------------------
 export async function POST(req: Request) {
   const { raffleId, winnerCount } = await req.json();
@@ -50,7 +50,6 @@ export async function POST(req: Request) {
   );
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
   return NextResponse.json({ winners: data });
 }
 
