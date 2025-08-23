@@ -120,9 +120,9 @@ export default function AdminWinnerPage() {
                 <div className="mb-4 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
                     <h2 className="font-semibold mb-2">Tickets Premium Existentes:</h2>
                     <ul>
-                        {premiumTickets.map((t) => (
-                            <li key={t.id}>
-                                Ticket Nº {t.numero}
+                        {premiumTickets.map((t, index) => (
+                            <li key={`${t.id}-${index}`}>
+                                <p>Ticket Nº {t.numero}</p>
                                 <p>{t.purchases?.users?.name ?? ""}</p>
                                 <p>{t.purchases?.users?.email ?? ""}</p>
                                 <p>{t.purchases?.users?.phone ?? ""}</p>

@@ -79,7 +79,7 @@ export function PaymentMethods() {
         { label: "Tipo de cuenta", valor: "Pago móvil" },
         { label: "Número de teléfono", valor: "0424435357" },
         { label: "C.I.", valor: "V-12345678" },
-        { label: "Total a pagar", valor: "" },
+        { label: "Total a pagar en VES", valor: "" },
       ],
     },
     {
@@ -90,7 +90,7 @@ export function PaymentMethods() {
         { label: "Titular", valor: "Joiber Sevillano" },
         { label: "Cuenta Ahorros", valor: "01234567890" },
         { label: "Cédula", valor: "1012345678" },
-        { label: "Total a pagar", valor: "" },
+        { label: "Total a pagar en COP", valor: "" },
       ],
     },
     {
@@ -100,7 +100,7 @@ export function PaymentMethods() {
       datos: [
         { label: "Titular", valor: "Joiber Sevillano" },
         { label: "Email", valor: "joiberSevillano@example.com" },
-        { label: "Total a pagar", valor: "" },
+        { label: "Total a pagar en USD", valor: "" },
       ],
     },
     {
@@ -111,7 +111,7 @@ export function PaymentMethods() {
         { label: "Usuario", valor: "cryptoJoiber" },
         { label: "Email", valor: "Joiber@example.com" },
         { label: "Red", valor: "TRC20" },
-        { label: "Total a pagar", valor: "" },
+        { label: "Total a pagar en USDT", valor: "" },
       ],
     }
   ];
@@ -119,13 +119,13 @@ export function PaymentMethods() {
   const calcularTotal = (metodoId: string) => {
     switch (metodoId) {
       case "bancolombia":
-        return (tickets * 4000).toFixed(3) + " COP";
+        return (tickets * 5000).toFixed(2);
       case "zelle":
-        return (tickets * ticketPrice) + " USD";
+        return (tickets * ticketPrice);
       case "binance":
-        return (tickets * ticketPrice) + " USDT";
+        return (tickets * ticketPrice);
       case "bancoVenezuela":
-        return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2) + " Bs";
+        return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2);
       default:
         return "";
     }
@@ -239,7 +239,7 @@ export function PaymentMethods() {
                 {m.datos.map((d, idx) => {
                   const rowId = `${m.id}-${idx}`;
                   const isCopied = copiadoId === rowId;
-                  const valorFinal = d.label === "Total a pagar" ? calcularTotal(m.id) : d.valor;
+                  const valorFinal = d.label.startsWith("Total a pagar") ? calcularTotal(m.id) : d.valor;
 
                   return (
                     <div
@@ -251,7 +251,7 @@ export function PaymentMethods() {
                         <span className="break-all text-gray-700 dark:text-gray-300">{valorFinal}</span>
                       </div>
                       <button
-                        onClick={() => handleCopy(valorFinal, rowId)}
+                        onClick={() => handleCopy(String(valorFinal), rowId)}
                         className={`shrink-0 text-xs rounded px-2 py-1 border ${isCopied
                           ? "bg-green-500 text-white border-green-500"
                           : "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"

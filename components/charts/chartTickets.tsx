@@ -26,8 +26,8 @@ export default function SimpleTicketsBarChart({ data }: Props) {
             Array.isArray(user.ticket_numbers) &&
             user.ticket_numbers.filter((n) => n != null).length > 0
         )
-        .map((user) => (
-          <div key={user.user_id}>
+        .map((user, index) => (
+          <div key={`${user.user_id}-${index}`}>
             <p className="font-semibold mb-1">
               {user.user_name} - {user.total_tickets} tickets
             </p>

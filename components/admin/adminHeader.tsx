@@ -17,13 +17,15 @@ export function AdminHeader() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div>
+        <div className="flex justify-center items-center">
+          <div className="w-[70px] h-[70px] flex items-center justify-center rounded-full bg-black dark:bg-transparent
+          pl-1">
             <Image
               src="/img/logo_4.png"
               alt="Logo"
               width={60}
               height={60}
+              className="object-contain"
             />
           </div>
         </div>
@@ -78,7 +80,7 @@ export function AdminHeader() {
                 <a href="/admin/images">Imágenes</a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="/admin/usuarios">Usuarios</a>
+                <a href="/admin/winner">Ganadores</a>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                 🚪 Cerrar sesión
