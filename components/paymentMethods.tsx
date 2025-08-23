@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import FormularioPago from "./formularioPago";
 import { VerifyTicket } from "./verifyTicket";
+import { useEurToVes } from "@/hooks/useTasaDiaBs";
 type Dato = { label: string; valor: string };
 type Metodo = {
   id: string;
@@ -22,7 +23,7 @@ export function PaymentMethods() {
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const quickSelect = [2, 5, 10, 20, 30, 50, 70, 100];
-
+  const { conversion  } = useEurToVes();
   const validate = (val: string) => {
     const num = Number(val);
     if (val === "" || isNaN(num)) return `El número mínimo de tickets es ${minTickets}`;
@@ -67,7 +68,7 @@ export function PaymentMethods() {
     setInputValue(String(clamped));
     setError(validate(String(clamped)));
   }
-  const tasa_ves = 135.64;
+  const tasa_ves = conversion?.rate || 200.00;
   const metodos: Metodo[] = [
     {
       id: "bancoVenezuela",
@@ -115,17 +116,16 @@ export function PaymentMethods() {
       ],
     }
   ];
-
   const calcularTotal = (metodoId: string) => {
     switch (metodoId) {
+      case "bancoVenezuela":
+        return (tickets * ticketPrice * Number((tasa_ves) || 1)).toFixed(2);
       case "bancolombia":
         return (tickets * 5000).toFixed(2);
       case "zelle":
         return (tickets * ticketPrice);
       case "binance":
         return (tickets * ticketPrice);
-      case "bancoVenezuela":
-        return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2);
       default:
         return "";
     }
@@ -282,7 +282,7 @@ export function PaymentMethods() {
           ⬇️
         </h2>
       </div>
-      <FormularioPago tickets={tickets} tasaVes={tasa_ves} />
+      <FormularioPago tickets={tickets} tasaVes={conversion?.rate} />
       <VerifyTicket />
     </section>
   );

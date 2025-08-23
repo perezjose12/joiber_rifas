@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+
     // 🔹 Validaciones
     if (!body.p_raffle_id || typeof body.p_raffle_id !== "number") {
       return NextResponse.json({ error: "Raffle ID inválido" }, { status: 400 });

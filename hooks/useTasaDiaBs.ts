@@ -1,27 +1,40 @@
-"use client";
+import { useState, useEffect } from "react";
 
-import { useEffect, useState } from "react";
+type Conversion = {
+  rate: number;
+  date: string;
+  source: "db" | "api";
+};
 
-export function useEuroToVES() {
-  const [rate, setRate] = useState<number | null>(null);
+export function useEurToVes() {
+  const [conversion, setConversion] = useState<Conversion | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRate = async () => {
+    const fetchConversion = async () => {
       try {
-        const res = await fetch(
-          `https://api.exchangeratesapi.io/v1/latest?access_key=TU_API_KEY&base=EUR&symbols=VES`
-        );
+        setLoading(true);
+        const res = await fetch("/api/convertTasa");
         const data = await res.json();
-        if (data.success) {
-          setRate(data.rates.VES);
+        if (!res.ok || data.error) {
+          setError(data.error || "Error desconocido");
+        } else {
+          setConversion({
+            rate: data.rate,
+            date: data.date,
+            source: data.source,
+          });
         }
-      } catch (error) {
-        console.error("Error fetching rate:", error);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Error desconocido");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchRate();
+    fetchConversion();
   }, []);
 
-  return rate;
+  return { conversion, loading, error };
 }
