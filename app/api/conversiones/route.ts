@@ -1,10 +1,10 @@
-import { supabasePublic } from "@/lib/supabasePublic"
+import { supabaseServer } from "@/lib/supabaseServer"
 
 export async function GET() {
   const hoy = new Date().toISOString().slice(0, 10);
 
   // Revisar si ya existe la tasa de hoy
-  const { data, error } = await supabasePublic
+  const { data, error } = await supabaseServer
     .from("conversiones")
     .select("*")
     .eq("fecha", hoy)
@@ -25,7 +25,7 @@ export async function GET() {
       tasa = parseFloat(json.promedio);
 
       // Guardar en Supabase
-      await supabasePublic.from("conversiones").insert({ fecha: hoy, tasa });
+      await supabaseServer.from("conversiones").insert({ fecha: hoy, tasa });
     } catch (e) {
       console.error("Error obteniendo tasa externa:", e);
       tasa = 1; // fallback

@@ -10,11 +10,12 @@ export function Hero() {
             <Image
               src="/img/logo_4.png"
               alt="Logo"
-              width={100}
-              height={100}
+              width={120}
+              height={120}
+              className="border border-gray-500 rounded-full bg-black w-26 h-26 object-cover pl-1"
             />
           </div>
-          <h1 className="font-serif font-bold text-5xl md:text-6xl text-text-light dark:text-text-dark mb-6 pb-3">
+          <h1 className="font-serif font-bold text-5xl md:text-6xl text-text-light dark:text-text-dark mb-6 pb-3 mt-7">
             MOTO BRF 0KM + IPhone 16 de Estrenar
           </h1>
 

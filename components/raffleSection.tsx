@@ -27,18 +27,6 @@ export function RaffleSection() {
                   </div>
                 </div>
               </div>
-
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 transition-colors duration-500">
-                <h3 className="font-serif font-bold text-lg mb-4 text-gray-900 dark:text-gray-100">
-                  Productos Incluidos:
-                </h3>
-                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li className="flex items-center space-x-2">
-                    <span className="w-2 h-2 bg-red-600 rounded-full"></span>
-                    <span>MOTO BRF 0K + IPhone 16 de Estrenar</span>
-                  </li>
-                </ul>
-              </div>
             </CardContent>
           </Card>
         </div>

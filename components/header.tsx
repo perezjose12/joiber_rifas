@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Menu } from "lucide-react"
 import ThemeSwitcher from "./theme/ThemeSwitcher";
 import Image from "next/image"
+import Link from "next/link"
 export function Header() {
   return (
     <header className="sticky top-0 z-50 dark:bg-gray-900 backdrop-blur-sm border-b border-red-100"
@@ -14,12 +15,14 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div>
-              <Image
+              <Link href="/">
+                <Image
                 src="/img/logo_4.png"
                 alt="Logo"
                 width={60}
                 height={60}
               />
+              </Link>
             </div>
           </div>
 

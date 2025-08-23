@@ -120,7 +120,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             p_proof_url: data.url,
             p_bank_id: Number(selectedBanco.id),
             p_moneda_pago: moneda,
-            p_total_amount: totalAmount
+            p_total_amount: Number(totalAmount)
           };
           const reservarRes = await fetch('/api/reservar', {
             method: 'POST',
