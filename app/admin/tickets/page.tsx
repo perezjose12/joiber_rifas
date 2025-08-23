@@ -42,8 +42,6 @@ export default function AdminPurchasesPage() {
                 </ul>
             </div>
             <TicketsChart data={users} />
-            <h1 className="text-2xl font-bold mb-4 ml-6 mt-2">Deseas reservas los tickets premium?</h1>
-
         </div>
     );
 }

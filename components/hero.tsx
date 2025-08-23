@@ -3,19 +3,21 @@ import Swiper from "./swiper";
 import Image from "next/image";
 export function Hero() {
   return (
-    <section id="inicio" className="py-20 px-4 dark:bg-gray-900">
+    <section id="inicio" className="py-10 px-4 dark:bg-gray-900">
       <div className="container mx-auto text-center">
         <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center items-center">
+            <Image
+              src="/img/logo_4.png"
+              alt="Logo"
+              width={100}
+              height={100}
+            />
+          </div>
           <h1 className="font-serif font-bold text-5xl md:text-6xl text-text-light dark:text-text-dark mb-6 pb-3">
             MOTO BRF 0KM + IPhone 16 de Estrenar
           </h1>
-          <Image
-            src="/img/logo_4.png"
-            alt="Logo"
-            width={200}
-            height={200}
-            className="absolute top-1/6 left-1/2 transform -translate-x-1/2 opacity-70 z-50"
-          />
+
           <Swiper />
 
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed mt-4">

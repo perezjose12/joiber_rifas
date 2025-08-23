@@ -17,8 +17,8 @@ export function Header() {
               <Image
                 src="/img/logo_4.png"
                 alt="Logo"
-                width={120}
-                height={100}
+                width={60}
+                height={60}
               />
             </div>
           </div>

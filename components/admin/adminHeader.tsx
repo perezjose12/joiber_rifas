@@ -20,10 +20,10 @@ export function AdminHeader() {
         <div className="flex items-center space-x-2">
           <div>
             <Image
-              src="/img/logo_2.png"
+              src="/img/logo_4.png"
               alt="Logo"
-              width={120}
-              height={120}
+              width={60}
+              height={60}
             />
           </div>
         </div>
@@ -45,8 +45,8 @@ export function AdminHeader() {
             Imágenes
           </Link>
 
-          <Link href="/admin/users" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
-            Usuarios
+          <Link href="/admin/winner" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
+            Ganadores
           </Link>
           <Button
             onClick={() => signOut({ callbackUrl: "/" })}
