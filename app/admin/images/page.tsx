@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import AcceptReservationButton from "@/components/acceptPurchase/acceptReservationButton";
+import Swal from "sweetalert2";
 type Purchase = {
     id: number;
     tickets: number;
@@ -70,10 +71,47 @@ export default function AdminPurchasesPage() {
         },
         [status]
     );
+    async function cancelarCompra(purchaseId: number) {
+        setLoading(true);
+        try {
+            const res = await fetch('/api/admin/cancelPurchase', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ purchaseId }),
+            });
 
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                throw new Error(data.error || 'Error al cancelar la compra');
+            }
+
+            // actualizar el estado local
+            setPurchases((prev) =>
+                prev.map((p) =>
+                    p.id === purchaseId ? { ...p, status: 'cancelled', proof_url: null } : p
+                )
+            );
+            Swal.fire({
+                title: "Compra cancelada!",
+                icon: "success",
+                draggable: true
+            });
+            fetchPurchases(true);
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error('Error al cancelar compra:', err);
+                alert(err.message);
+            } else {
+                console.error('Error inesperado:', err);
+                alert('Error desconocido ❌');
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
     useEffect(() => {
         fetchPurchases(true);
-
     }, [status, fetchPurchases]);
 
     return (
@@ -144,8 +182,11 @@ export default function AdminPurchasesPage() {
                         {p.status === "pending" && (
                             <div className="mt-4 flex justify-between">
                                 <AcceptReservationButton purchaseId={p.id} />
-                                <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
-                                    Rechazar reserva
+                                <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 
+                                rounded cursor-pointer"
+                                    onClick={() => cancelarCompra(p.id)}
+                                    disabled={loading}>
+                                    {loading ? "Cancelando..." : "Cancelar compra"}
                                 </button>
                             </div>
                         )}
