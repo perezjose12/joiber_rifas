@@ -9,7 +9,7 @@ import Link from "next/link"
 export function Header() {
   return (
     <header className="sticky top-0 z-50 dark:bg-gray-900 backdrop-blur-sm border-b border-red-100"
-      style={{ zIndex: 9999999 }}>
+      >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}

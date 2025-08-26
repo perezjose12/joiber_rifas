@@ -1,4 +1,5 @@
 "use client";
+import CheckWinner from "@/components/checkWinner/checkWinner";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 type PremiumTicket = {
@@ -18,8 +19,6 @@ type PremiumTicket = {
 };
 export default function AdminWinnerPage() {
     const [premiumTickets, setPremiumTickets] = useState<PremiumTicket[]>([]);
-    const [winnerTickets, setWinnerTickets] = useState<PremiumTicket[]>([]);
-    const [loadingWinner, setLoadingWinner] = useState(false);
     const [loadingPremium, setLoadingPremium] = useState(false);
 
     const raffleId = 1;
@@ -40,25 +39,9 @@ export default function AdminWinnerPage() {
         }
     };
 
-    // --- Función para cargar tickets ganadores ---
-    const fetchWinnerTickets = async () => {
-        setLoadingWinner(true);
-        try {
-            const res = await fetch(`/api/admin/assignWinner?raffleId=${raffleId}`);
-            const data = await res.json();
-            if (data.winners) setWinnerTickets(data.winners);
-        } catch (err) {
-            console.error(err);
-            setWinnerTickets([]);
-        } finally {
-            setLoadingWinner(false);
-        }
-    };
-
     // --- Cargar ambos al montar ---
     useEffect(() => {
         fetchPremiumTickets();
-        fetchWinnerTickets();
     }, []);
 
     const handleCreate = async () => {
@@ -85,32 +68,6 @@ export default function AdminWinnerPage() {
             alert(`Error al crear tickets premium ${err}`);
         } finally {
             setLoadingPremium(false);
-        }
-    };
-    // --- Crear ganador ---
-    const handleCreateWinner = async () => {
-        setLoadingWinner(true);
-        try {
-            const res = await fetch("/api/admin/assignWinner", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ raffleId, winnerCount: 1 }),
-            });
-            const data = await res.json();
-            if (data.winners) {
-                await fetchWinnerTickets();
-                Swal.fire({
-                    title: "Ticket ganador creado!",
-                    icon: "success",
-                    draggable: true
-                });
-            } else {
-                alert(data.message || "Error al asignar ganador");
-            }
-        } catch (err) {
-            alert(`Error al asignar ganador ${err}`);
-        } finally {
-            setLoadingWinner(false);
         }
     };
     return (
@@ -142,30 +99,7 @@ export default function AdminWinnerPage() {
             {/* Ganador */}
             <div>
                 <h1 className="text-2xl font-bold mb-2">Ganador de la rifa:</h1>
-                {winnerTickets.length > 0 ? (
-                    <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-800">
-                        <h2 className="font-semibold mb-2">Ganador existente:</h2>
-                        <ul>
-                            {winnerTickets.map((w) => (
-                                <li key={w.id}>
-                                    Ticket Nº {w.numero}
-                                    <p>{w.purchases?.users?.name ?? ""}</p>
-                                    <p>{w.purchases?.users?.email ?? ""}</p>
-                                    <p>{w.purchases?.users?.phone ?? ""}</p>
-                                </li>
-
-                            ))}
-                        </ul>
-                    </div>
-                ) : (
-                    <button
-                        onClick={handleCreateWinner}
-                        disabled={loadingWinner}
-                        className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
-                    >
-                        {loadingWinner ? "Creando..." : "Asignar Ganador"}
-                    </button>
-                )}
+                <CheckWinner raffleId={raffleId} />
             </div>
         </div>
     )

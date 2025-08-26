@@ -21,23 +21,23 @@ export function Hero() {
 
           <Swiper />
 
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed mt-4">
-            Juega apenas se venda el 100% de los números. Todo depende de ustedes!!
-          </p>
-
-          <div className="mt-16">
+          <div className="mt-20">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Gift className="h-8 w-8 text-green-600 dark:text-green-300" />
               </div>
-              <h3 className="font-serif font-bold text-lg text-text-light dark:text-text-dark mb-2">
-                Pagos Seguros
-              </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Múltiples métodos de pago regionales
+                <span className="font-semibold text-gray-800 dark:text-gray-100">
+                  Por tan solo $1 por ticket
+                </span>{" "}
               </p>
             </div>
           </div>
+          <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mt-6">
+            Juega apenas se venda el 100% de los números. Todo depende de ustedes!!
+          </p>
+
+
         </div>
       </div>
     </section>
