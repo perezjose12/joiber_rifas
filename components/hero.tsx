@@ -16,11 +16,11 @@ export function Hero() {
             />
           </div>
           <h1 className="font-serif font-bold text-5xl md:text-6xl text-text-light dark:text-text-dark mb-6 pb-3 mt-7">
-            MOTO BRF 0KM + IPhone 16 de Estrenar
+            MOTO SBR 2025 MODELO NUEVO + IPhone 16 de Estrenar
           </h1>
 
           <Swiper />
-
+      
           <div className="mt-20">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">

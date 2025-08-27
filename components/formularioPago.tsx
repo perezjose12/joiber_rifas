@@ -38,7 +38,7 @@ const calcularTotal = (metodoId: number, tickets: number, ticketPrice: number, t
   }
 };
 export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
-  const { register, handleSubmit, setError, clearErrors,reset, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setError, reset, clearErrors, formState: { errors } } = useForm<FormData>();
   const [archivo, setArchivo] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedBanco, setSelectedBanco] = useState(bancos[0]);
@@ -128,7 +128,26 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             body: JSON.stringify(body)
           });
 
-          if (!reservarRes.ok) throw new Error('Error reservando tickets');
+          try {
+            const correoBody = {
+              p_tickets: tickets,
+              p_payment_ref: datos.numberCompra,
+              p_bank_id: Number(selectedBanco.id),
+              p_moneda_pago: moneda,
+              p_total_amount: Number(totalAmount)
+            };
+
+            const enviarCorreoRes = await fetch('/api/correo', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(correoBody)
+            });
+
+            if (!enviarCorreoRes.ok) throw new Error('Error enviando correo');
+          } catch (error) {
+            console.error("Error enviando correo:", error);
+          }
+           if (!reservarRes.ok) throw new Error('Error reservando tickets');
           Swal.fire({
             title: "¡Enviado!",
             text: "Tus datos se enviaron correctamente y pendiente de revisión",
