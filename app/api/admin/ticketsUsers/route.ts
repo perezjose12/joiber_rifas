@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer"; 
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 interface RequestQuery {
   searchParams: {
     limit?: string;
@@ -8,6 +10,10 @@ interface RequestQuery {
 }
 
 export async function GET(req: Request & RequestQuery) {
+  const session = await getServerSession(authOptions);
+    if (!session) {
+      return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
+    }
   try {
     const url = new URL(req.url);
     const limit = parseInt(url.searchParams.get("limit") || "2");

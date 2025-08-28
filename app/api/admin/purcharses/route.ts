@@ -40,6 +40,7 @@ export async function GET(req: Request) {
         moneda_pago,
         proof_url,
         status,
+        payment_ref,
         users:users(name,email,phone),
         banks:banks(name)
       `)
@@ -59,6 +60,7 @@ export async function GET(req: Request) {
         moneda_pago: p.moneda_pago,
         proof_url: p.proof_url,
         status: p.status,
+        payment_ref: p.payment_ref,
         users: userObj ?? { name: "", email: "", phone: "" },
         banks: bankObj ?? { name: "" },
       };

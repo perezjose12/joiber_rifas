@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: Request) {
     const { raffleId } = await req.json();
@@ -73,6 +75,10 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
+  const session = await getServerSession(authOptions);
+    if (!session) {
+      return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
+    }
   const url = new URL(req.url);
   const raffleId = Number(url.searchParams.get("raffleId"));
 

@@ -11,6 +11,7 @@ type Purchase = {
     moneda_pago: string;
     proof_url: string | null;
     status: string;
+    payment_ref: string;
     users: {
         name: string;
         email: string;
@@ -71,7 +72,7 @@ export default function AdminPurchasesPage() {
         },
         [status]
     );
-    async function cancelarCompra(purchaseId: number) {
+    async function cancelarCompra(purchaseId: number, p_email: string, p_payment_ref: string) {
         setLoading(true);
         try {
             const res = await fetch('/api/admin/cancelPurchase', {
@@ -85,7 +86,16 @@ export default function AdminPurchasesPage() {
             if (!res.ok || !data.success) {
                 throw new Error(data.error || 'Error al cancelar la compra');
             }
-
+            // 2️⃣ Enviar correo al usuario notificando la cancelación
+            await fetch("/api/admin/correoAdmin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    p_status: "cancelled",
+                    p_email: p_email,
+                    p_payment_ref: p_payment_ref
+                }),
+            });
             // actualizar el estado local
             setPurchases((prev) =>
                 prev.map((p) =>
@@ -181,10 +191,15 @@ export default function AdminPurchasesPage() {
                         )}
                         {p.status === "pending" && (
                             <div className="mt-4 flex justify-between">
-                                <AcceptReservationButton purchaseId={p.id} />
+                                <AcceptReservationButton
+                                    purchaseId={p.id}
+                                    p_status="approved"
+                                    p_email={p.users.email}
+                                    p_payment_ref={p.payment_ref}
+                                />
                                 <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 
                                 rounded cursor-pointer"
-                                    onClick={() => cancelarCompra(p.id)}
+                                    onClick={() => cancelarCompra(p.id,p.users.email, p.payment_ref)}
                                     disabled={loading}>
                                     {loading ? "Cancelando..." : "Cancelar compra"}
                                 </button>

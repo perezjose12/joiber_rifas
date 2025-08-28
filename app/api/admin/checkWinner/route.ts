@@ -1,7 +1,12 @@
 // /pages/api/checkWinner.ts
 import { supabaseServer } from "@/lib/supabaseServer";
-
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+    if (!session) {
+      return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
+    }
   try {
     const body = await req.json();
     const { numero, raffleId } = body;
