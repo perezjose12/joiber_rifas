@@ -38,7 +38,7 @@ const calcularTotal = (metodoId: number, tickets: number, ticketPrice: number, t
   }
 };
 export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
-  const { register, handleSubmit, setError, reset, clearErrors, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setError, clearErrors, reset, formState: { errors } } = useForm<FormData>();
   const [archivo, setArchivo] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedBanco, setSelectedBanco] = useState(bancos[0]);
@@ -127,35 +127,33 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
           });
-
-          try {
-            const correoBody = {
+          if (reservarRes.ok) {
+            const totalAmount = calcularTotal(selectedBanco.id, tickets, 1, tasaVes || 1);
+            const bodyTwo = {
               p_tickets: tickets,
               p_payment_ref: datos.numberCompra,
               p_bank_id: Number(selectedBanco.id),
               p_moneda_pago: moneda,
               p_total_amount: Number(totalAmount)
             };
-
             const enviarCorreoRes = await fetch('/api/correo', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(correoBody)
+              body: JSON.stringify(bodyTwo) // reutilizas el mismo objeto que mandaste a reservar
             });
 
-            if (!enviarCorreoRes.ok) throw new Error('Error enviando correo');
-          } catch (error) {
-            console.error("Error enviando correo:", error);
+            if (!enviarCorreoRes.ok) {
+              console.error("Error enviando correo");
+            }
+            Swal.fire({
+              title: "¡Enviado!",
+              text: "Tus datos se enviaron correctamente y pendiente de revisión",
+              icon: "success",
+              confirmButtonText: "Aceptar"
+            });
+            reset();
+            setPreview(null);
           }
-           if (!reservarRes.ok) throw new Error('Error reservando tickets');
-          Swal.fire({
-            title: "¡Enviado!",
-            text: "Tus datos se enviaron correctamente y pendiente de revisión",
-            icon: "success",
-            confirmButtonText: "Aceptar"
-          });
-          reset();
-          setPreview(null);
         } catch (error) {
           console.error('Error reservando tickets:', error);
         }
@@ -167,6 +165,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
           footer: '<a href="#">Error: data.error</a>'
         });
       }
+
     } catch (error) {
       console.error("Error al subir imagen:", error);
     }

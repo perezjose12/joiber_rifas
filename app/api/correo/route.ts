@@ -32,8 +32,8 @@ export async function POST(req: Request) {
     `;
 
     await resend.emails.send({
-      from: `${process.env.NEXT_PUBLIC_EMAIL_RESEND}`, 
-      to: "perezjosemiguel079@gmail.com",
+      from: "Rifas JM <noreply@rifas-jm.com>", 
+      to: "joibersevillano15@gmail.com",
       subject: "Nuevo pedido de compra",
       html,
     });
