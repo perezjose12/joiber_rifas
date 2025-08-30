@@ -64,7 +64,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
 
     // Validación de tamaño
     if (file.size > 1 * 1024 * 1024) {
-      setError("archivo", { type: "manual", message: "El archivo debe ser menor a 1 MB" });
+      setError("archivo", { type: "manual", message: "El archivo debe ser menor a 3 MB" });
       setPreview(null);
       setArchivo(null);
       return;
@@ -139,12 +139,12 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             const enviarCorreoRes = await fetch('/api/correo', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(bodyTwo) // reutilizas el mismo objeto que mandaste a reservar
+              body: JSON.stringify(bodyTwo) 
             });
 
             if (!enviarCorreoRes.ok) {
               console.error("Error enviando correo");
-            }
+            } 
             Swal.fire({
               title: "¡Enviado!",
               text: "Tus datos se enviaron correctamente y pendiente de revisión",

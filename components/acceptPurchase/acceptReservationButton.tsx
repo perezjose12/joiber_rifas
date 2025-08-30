@@ -2,10 +2,11 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 interface AcceptReservationButtonProps {
-  purchaseId: number;
-  p_status: string;
-  p_email: string;
-  p_payment_ref: string;
+    purchaseId: number;
+    p_status: string;
+    p_email: string;
+    p_payment_ref: string;
+    p_proof_url: string;
 }
 
 interface Ticket {
@@ -13,7 +14,7 @@ interface Ticket {
     numero: number;
 }
 
-export default function AcceptReservationButton({ purchaseId,p_status,p_email,p_payment_ref}: AcceptReservationButtonProps) {
+export default function AcceptReservationButton({ purchaseId, p_status, p_email, p_payment_ref, p_proof_url }: AcceptReservationButtonProps) {
     const [loading, setLoading] = useState(false);
 
     const handleAccept = async () => {
@@ -30,45 +31,59 @@ export default function AcceptReservationButton({ purchaseId,p_status,p_email,p_
         setLoading(true);
 
         try {
-            const res = await fetch("/api/admin/assingTickets", {
+            const resTickets = await fetch("/api/admin/assingTickets", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ purchaseId }),
             });
 
-            const data = await res.json();
+            const dataTickets = await resTickets.json();
 
-            if (!res.ok) {
-                console.error(data.error || "Error asignando tickets");
-                alert(data.error || "Error asignando tickets");
-            } else {
-                // Aseguramos que tickets sea siempre array
-                const tickets: Ticket[] = data.tickets ?? [];
-
-                // 1️⃣ Enviar correo con Resend
-                await fetch("/api/admin/correoAdmin", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        p_status: p_status,
-                        p_tickets: tickets?.map(t => t.numero) ?? [],
-                        p_email: p_email,
-                        p_payment_ref: p_payment_ref
-                    }),
-                });
-
-                // 2️⃣ Mostrar Swal con los tickets asignados
-                await Swal.fire({
-                    title: "¡Aceptado con éxito!",
-                    text: tickets.length
-                        ? `Tickets asignados: ${tickets.map((t) => t.numero).join(", ")}`
-                        : "No se asignaron tickets (ya no había disponibles)",
-                    icon: "success",
-                    confirmButtonText: "Aceptar"
-                });
-
-                window.location.reload();
+            if (!resTickets.ok) {
+                throw new Error(dataTickets.error || "Error asignando tickets");
             }
+            // Aseguramos que tickets sea siempre array
+            const tickets: Ticket[] = dataTickets.tickets ?? [];
+
+            // 1️⃣ Enviar correo con Resend
+            const resCorreo = await fetch("/api/admin/correoAdmin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    p_status: p_status,
+                    p_tickets: tickets?.map(t => t.numero) ?? [],
+                    p_email: p_email,
+                    p_payment_ref: p_payment_ref
+                }),
+            });
+            const dataCorreo = await resCorreo.json();
+            if (!resCorreo.ok) {
+                throw new Error(dataCorreo.error || "Error enviando correo");
+            }
+            const res = await fetch('/api/admin/deleteImg', {
+                method: 'POST',
+                body: JSON.stringify({ imageUrl: p_proof_url }),
+            });
+
+            const dataImg = await res.json();
+
+            if (!res.ok || (Array.isArray(dataImg) && dataImg.length === 0)) {
+                console.error(dataImg.error || "Error al eliminar la imagen");
+                alert(dataImg.error || "Error al eliminar la imagen");
+            } else {
+                console.log("Imagen eliminada:", dataImg);
+            }
+            // 2️⃣ Mostrar Swal con los tickets asignados
+            await Swal.fire({
+                title: "¡Aceptado con éxito!",
+                text: tickets.length
+                    ? `Tickets asignados: ${tickets.map((t) => t.numero).join(", ")}`
+                    : "No se asignaron tickets (ya no había disponibles)",
+                icon: "success",
+                confirmButtonText: "Aceptar"
+            });
+            
+            window.location.reload();
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Error en la petición";
             console.error(message);
@@ -76,6 +91,8 @@ export default function AcceptReservationButton({ purchaseId,p_status,p_email,p_
         } finally {
             setLoading(false);
         }
+
+
     };
 
     return (

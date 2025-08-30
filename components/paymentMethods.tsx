@@ -74,10 +74,9 @@ export function PaymentMethods() {
       icono: "/banco_venezuela.png",
       datos: [
         { label: "BDV", valor: "0102" },
-        { label: "Titular", valor: "Joiber Sevillano" },
         { label: "Tipo de cuenta", valor: "Pago móvil" },
-        { label: "Número de teléfono", valor: "0424435357" },
-        { label: "C.I.", valor: "V-12345678" },
+        { label: "Número de teléfono", valor: "04127904821" },
+        { label: "C.I", valor: "7416045" },
         { label: "Total a pagar en VES", valor: "" },
       ],
     },
@@ -97,8 +96,8 @@ export function PaymentMethods() {
       nombre: "Zelle",
       icono: "/zelle.png",
       datos: [
-        { label: "Titular", valor: "Joiber Sevillano" },
-        { label: "Email", valor: "joiberSevillano@example.com" },
+        { label: "Titular", valor: "Marya" },
+        { label: "Email", valor: "Marya18.m.4@gmail.com" },
         { label: "Total a pagar en USD", valor: "" },
       ],
     },
@@ -107,9 +106,8 @@ export function PaymentMethods() {
       nombre: "Binance",
       icono: "/binance.png",
       datos: [
-        { label: "Usuario", valor: "cryptoJoiber" },
-        { label: "Email", valor: "Joiber@example.com" },
-        { label: "Red", valor: "TRC20" },
+        { label: "Email", valor: "Joibersevillano15@gmail.com" },
+        { label: "Binance ID: ", valor: "745620994" },
         { label: "Total a pagar en USDT", valor: "" },
       ],
     }

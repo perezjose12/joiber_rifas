@@ -8,15 +8,6 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo y descripción */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-serif font-bold text-lg">JS</span>
-              </div>
-              <div>
-                <h3 className="font-serif font-bold text-xl">Joiber Sevillano</h3>
-                <p className="text-gray-400 text-sm">Rifas Exclusivas</p>
-              </div>
-            </div>
             <p className="text-gray-300 leading-relaxed">
               Organizamos rifas transparentes y emocionantes con productos exclusivos. Contacto directo y métodos de
               pago seguros para toda Latinoamérica.
@@ -28,7 +19,7 @@ export function Footer() {
             <h4 className="font-serif font-bold text-lg mb-4">Contacto Directo</h4>
             <div className="space-y-4">
               <div className="space-x-3">
-                <Link href="https://wa.me/573112341234" target="_blank">
+                <Link href="https://www.instagram.com/rifas_jm.09/" target="_blank">
                   <Instagram className="h-7 w-7 text-red-400" />
                 </Link>
               </div>

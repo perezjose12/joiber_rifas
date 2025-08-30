@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     // Validación de tamaño (< 1 MB)
-    if (file.size > 1 * 1024 * 1024) {
+    if (file.size > 3 * 1024 * 1024) {
       return NextResponse.json({ error: "El archivo debe ser menor a 1 MB" }, { status: 400 });
     }
 

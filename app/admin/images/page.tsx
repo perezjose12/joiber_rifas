@@ -196,6 +196,7 @@ export default function AdminPurchasesPage() {
                                     p_status="approved"
                                     p_email={p.users.email}
                                     p_payment_ref={p.payment_ref}
+                                    p_proof_url={p.proof_url ?? ""}
                                 />
                                 <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 
                                 rounded cursor-pointer"
