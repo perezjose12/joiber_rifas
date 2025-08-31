@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
+  icons: {
+    icon: "/img/logo_4.png",
+    apple: "/img/logo_4.png",
+    shortcut: "/img/logo_4.png",
+  },
   openGraph: {
     title: "Rifas JyM - Participa y gana increíbles premios",
     description: "Participa en rifas y sorteos semanales en Rifas JyM y gana premios exclusivos de manera segura y confiable.",
@@ -61,10 +66,6 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/png"  href="/img/logo_4.png" />
-      </head>
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
