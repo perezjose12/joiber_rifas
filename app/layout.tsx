@@ -17,9 +17,39 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Rifas Joiber Sevillano - ¡Participa y Gana!",
-  description: "Rifas de productos exclusivos con métodos de pago seguros en Latinoamérica",
-  generator: "v0.app",
+  title: "Rifas JyM - ¡Participa y Gana!",
+  description: "Rifas JyM te permite participar en sorteos y ganar premios exclusivos de manera fácil y segura. ¡No te pierdas nuestras rifas semanales!",
+  keywords: ["rifas", "sorteos", "premios", "Rifas JyM"],
+  authors: [{ name: "Rifas JyM", url: "https://www.rifas-jm.com/" }],
+  creator: "Rifas JyM",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+  openGraph: {
+    title: "Rifas JyM - Participa y gana increíbles premios",
+    description: "Participa en rifas y sorteos semanales en Rifas JyM y gana premios exclusivos de manera segura y confiable.",
+    url: "https://www.rifas-jm.com/",
+    siteName: "Rifas JyM",
+    images: [
+      {
+        url: "/description.png", // crea una imagen 1200x630 px en /public
+        width: 1200,
+        height: 630,
+        alt: "Rifas JyM - Sorteos y premios",
+      },
+    ],
+    locale: "es_ES",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rifas JyM - Participa y gana increíbles premios",
+    description: "Participa en rifas y sorteos semanales en Rifas JyM y gana premios exclusivos.",
+    images: ["/description.png"],
+    site: "@RifasJyM",
+    creator: "@RifasJyM",
+  },
 };
 
 export default function RootLayout({
@@ -31,6 +61,10 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/png"  href="/img/logo_4.png" />
+      </head>
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}

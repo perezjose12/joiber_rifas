@@ -10,27 +10,47 @@ type UserTickets = {
     ticket_numbers: number[] | null;
     total_tickets: number;
 };
-
-export default function AdminPurchasesPage() {
+// Hook personalizado para paginación
+function useTickets(limit = 2) {
     const [users, setUsers] = useState<UserTickets[]>([]);
     const [offset, setOffset] = useState(0);
-    const limit = 2;
     const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    const fetchTickets = async (isInitial = false) => {
-        const currentOffset = isInitial ? 0 : offset;
-        const res = await fetch(`/api/admin/ticketsUsers?limit=${limit}&offset=${currentOffset}`);
-        const data: UserTickets[] = await res.json();
+    const fetchTickets = async (reset = false) => {
+        if (loading) return;
+        setLoading(true);
 
-        setUsers(prev => (isInitial ? data : [...prev, ...data]));
-        setOffset(currentOffset + limit);
+        const currentOffset = reset ? 0 : offset;
 
-        if (data.length < limit) setHasMore(false);
+        try {
+            const res = await fetch(`/api/admin/ticketsUsers?limit=${limit}&offset=${currentOffset}`);
+            const json = await res.json();
+            const data: UserTickets[] = json.data ?? [];
+
+            setUsers(prev => {
+                const merged = reset ? data : [...prev, ...data];
+                const unique = Array.from(new Map(merged.map((item) => [item.user_id, item])).values());
+                return unique;
+            });
+
+            setOffset(currentOffset + limit);
+            setHasMore(data.length === limit); // Si trae menos que limit, no hay más
+        } catch (err) {
+            console.error("Error fetching tickets:", err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        fetchTickets(true);
+        fetchTickets(true); // Cargar primera página al montar
     }, []);
+
+    return { users, hasMore, loading, fetchTickets };
+}
+export default function AdminPurchasesPage() {
+    const { users, hasMore, loading, fetchTickets } = useTickets(2);
 
     return (
         <div className="py-6">
@@ -57,10 +77,11 @@ export default function AdminPurchasesPage() {
                 </ul>
                 {hasMore && (
                     <button
+                        disabled={loading}
                         onClick={() => fetchTickets()}
                         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                     >
-                        Cargar más
+                        {loading ? "Cargando..." : "Cargar más"}
                     </button>
                 )}
             </div>

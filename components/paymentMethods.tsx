@@ -85,9 +85,7 @@ export function PaymentMethods() {
       nombre: "Bancolombia",
       icono: "/bancolombia2.png",
       datos: [
-        { label: "Titular", valor: "Joiber Sevillano" },
-        { label: "Cuenta Ahorros", valor: "01234567890" },
-        { label: "Cédula", valor: "1012345678" },
+        { label: "Cuenta Ahorros", valor: "23676047301" },
         { label: "Total a pagar en COP", valor: "" },
       ],
     },

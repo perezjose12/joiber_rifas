@@ -16,7 +16,7 @@ export function Hero() {
             />
           </div>
           <h1 className="font-serif font-bold text-5xl md:text-6xl text-text-light dark:text-text-dark mb-6 pb-3 mt-7">
-            MOTO SBR 2025 MODELO NUEVO + IPhone 16 de Estrenar
+            MOTO SBR 2026 + IPhone 16 de Estrenar
           </h1>
 
           <Swiper />

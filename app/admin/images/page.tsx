@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import AcceptReservationButton from "@/components/acceptPurchase/acceptReservationButton";
 import Swal from "sweetalert2";
@@ -34,44 +34,35 @@ export default function AdminPurchasesPage() {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
-    const LIMIT = 2; // cuantos quieres traer por página
+    const LIMIT = 5; // cuantos quieres traer por página
 
-    const fetchPurchases = useCallback(
-        async (reset = false) => {
-            setLoading(true);
-            try {
-                const currentPage = reset ? 1 : page;
-                const res = await fetch(
-                    `/api/admin/purcharses?status=${status}&page=${currentPage}&limit=${LIMIT}`
-                );
-                const data = await res.json();
-                if (reset) {
-                    setPurchases(data.purchases || []);
-                    setPage(2);
-                } else {
-                    setPurchases((prev) => {
-                        const combined = [...prev, ...(data.purchases || [])];
-                        const unique = combined.filter(
-                            (p, index, self) => index === self.findIndex((x) => x.id === p.id)
-                        );
-                        // Ocultar botón si la última llamada trae menos de LIMIT
-                        setHasMore(data.purchases && data.purchases.length === LIMIT && unique.length > prev.length);
-                        return unique;
-                    });
-                    setPage(currentPage + 1);
-                }
+    const fetchPurchases = async (reset = false) => {
+        if (loading) return;
+        setLoading(true);
 
-                const fetchedCount = data.purchases?.length || 0;
-                setHasMore(fetchedCount === LIMIT);
-            } catch (err) {
-                console.error(err);
-                if (reset) setPurchases([]);
-            } finally {
-                setLoading(false);
+        try {
+            const currentPage = reset ? 1 : page;
+            const res = await fetch(`/api/admin/purcharses?status=${status}&page=${currentPage}&limit=${LIMIT}`);
+            const data = await res.json();
+
+            if (res.ok) {
+                const newPurchases: Purchase[] = data.purchases ?? [];
+                setPurchases((prev) => reset ? newPurchases : [...prev, ...newPurchases]);
+
+                // Si la cantidad traída es menor que el límite, no hay más
+                if (newPurchases.length < LIMIT) setHasMore(false);
+                else setHasMore(true);
+
+                setPage(currentPage + 1);
+            } else {
+                console.error(data.error);
             }
-        },
-        [status]
-    );
+        } catch (err) {
+            console.error("Error fetching purchases:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
     async function cancelarCompra(purchaseId: number, p_email: string, p_payment_ref: string) {
         setLoading(true);
         try {
@@ -107,7 +98,7 @@ export default function AdminPurchasesPage() {
                 icon: "success",
                 draggable: true
             });
-            fetchPurchases(true);
+            fetchPurchases();
         } catch (err) {
             if (err instanceof Error) {
                 console.error('Error al cancelar compra:', err);
@@ -122,7 +113,7 @@ export default function AdminPurchasesPage() {
     }
     useEffect(() => {
         fetchPurchases(true);
-    }, [status, fetchPurchases]);
+    }, [status]);
 
     return (
         <div className="px-4 py-8 bg-gray-100 dark:bg-gray-900">
@@ -200,7 +191,7 @@ export default function AdminPurchasesPage() {
                                 />
                                 <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 
                                 rounded cursor-pointer"
-                                    onClick={() => cancelarCompra(p.id,p.users.email, p.payment_ref)}
+                                    onClick={() => cancelarCompra(p.id, p.users.email, p.payment_ref)}
                                     disabled={loading}>
                                     {loading ? "Cancelando..." : "Cancelar compra"}
                                 </button>

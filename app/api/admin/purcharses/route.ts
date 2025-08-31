@@ -26,10 +26,9 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const statusFilter = url.searchParams.get("status") ?? undefined;
-    const page = Number(url.searchParams.get("page") ?? "1");
-    const limit = Number(url.searchParams.get("limit") ?? "2"); 
+    const page = Number(url.searchParams.get("page") ?? 1);
+    const limit = Number(url.searchParams.get("limit") ?? 5); 
     const offset = (page - 1) * limit;
-
     // Obtener purchases con join
     const { data: purchases, error } = await supabaseServer
       .from("purchases")
@@ -41,8 +40,8 @@ export async function GET(req: Request) {
         proof_url,
         status,
         payment_ref,
-        users:users(name,email,phone),
-        banks:banks(name)
+        users:users!inner(name,email,phone),
+        banks:banks!inner(name)
       `)
       .eq("status", statusFilter || "pending") // filtro opcional
       .range(offset, offset + limit - 1); // paginación
@@ -65,7 +64,7 @@ export async function GET(req: Request) {
         banks: bankObj ?? { name: "" },
       };
     });
-
+    console.log(purchasesSingle);
     return new Response(JSON.stringify({ purchases: purchasesSingle }), { status: 200 });
   } catch (err: unknown) {
     return new Response(JSON.stringify({ error: (err as Error).message }), { status: 500 });
