@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
   icons: {
-    icon: "/img/logo_4.png",
-    apple: "/img/logo_4.png",
-    shortcut: "/img/logo_4.png",
+    icon: "/img/logo_4.ico",
+    apple: "/img/logo_4.ico",
+    shortcut: "/img/logo_4.ico",
   },
   openGraph: {
     title: "Rifas JyM - Participa y gana increíbles premios",
