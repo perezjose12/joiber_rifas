@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         await resend.emails.send({
             from: "Rifas JM <noreply@rifas-jm.com>",
             to: data.p_email,
-            subject: "Nuevo pedido de compra",
+            subject: "Pedido de tickets verificados",
             html,
         });
 
