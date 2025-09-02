@@ -184,7 +184,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
         <input
           type="text"
           id="name"
-          placeholder="Joiber Sevillano"
+          placeholder="Juan Perez"
           className="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
           {...register("name", { required: "El nombre es obligatorio" })}
         />
@@ -200,7 +200,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
         <input
           type="email"
           id="email"
-          placeholder="joiber@example.com"
+          placeholder="juanperez@example.com"
           className="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
           {...register("email", {
             required: "El correo es obligatorio",
@@ -226,7 +226,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
         <input
           type="tel"
           id="telefono"
-          placeholder="3001234567"
+          placeholder="+58416235098"
           className="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
           {...register("telefono", { required: "El teléfono es obligatorio" })}
         />

@@ -94,7 +94,7 @@ export function PaymentMethods() {
       nombre: "Zelle",
       icono: "/zelle.png",
       datos: [
-        { label: "Titular", valor: "Marya" },
+        { label: "Titular", valor: "Maria Montes" },
         { label: "Email", valor: "Marya18.m.4@gmail.com" },
         { label: "Total a pagar en USD", valor: "" },
       ],
