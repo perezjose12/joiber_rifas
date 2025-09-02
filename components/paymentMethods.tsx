@@ -61,7 +61,7 @@ export function PaymentMethods() {
     setError(validate(String(newVal)));
   };
   const selectTickets = (num: number) => {
-    const clamped = Math.max(minTickets, Math.max(maxTickets, num));
+    const clamped = Math.min(maxTickets, Math.max(minTickets, num));
     setTickets(clamped);
     setInputValue(String(clamped));
     setError(validate(String(clamped)));
