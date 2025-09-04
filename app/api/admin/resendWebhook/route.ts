@@ -1,17 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { supabaseServer } from "@/lib/supabaseServer";
+
+// 🛡️ Verificación de firma
+function verifySignature(payload: string, signature: string) {
+  const secret = process.env.RESEND_WEBHOOK_SECRET!;
+  const hmac = crypto.createHmac("sha256", secret).update(payload).digest("hex");
+  return hmac === signature;
+}
 
 export async function POST(req: NextRequest) {
   try {
-    // ⚠️ Leemos el body crudo
+    const signature = req.headers.get("resend-signature") || "";
     const rawBody = await req.text();
 
-    // Parseamos JSON
+    // 🔒 Verificar firma
+    if (!verifySignature(rawBody, signature)) {
+      console.warn("⚠️ Firma inválida");
+      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+    }
+
+    // Parsear JSON
     const body = JSON.parse(rawBody);
     const { type, data } = body;
-
-    console.log("📩 Webhook recibido (sin firma):", type);
-    console.log("📦 Datos:", data);
 
     // Insert en Supabase
     const { error } = await supabaseServer.from("resend_events").insert([
@@ -30,7 +41,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
-    console.log("✅ Evento guardado en Supabase");
+    // ✅ Evento guardado correctamente
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Error desconocido";
