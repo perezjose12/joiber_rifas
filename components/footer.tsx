@@ -31,7 +31,7 @@ export function Footer() {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Link href="https://www.tiktok.com/@joibersevillano" target="_blank">
+                <Link href="https://www.tiktok.com/@joiber_734?_t=ZS-8zP6yw8J3xJ&_r=1" target="_blank">
                 <TikTokIcon className="w-7 h-7 text-black" />
                 </Link>
               </div>
