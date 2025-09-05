@@ -64,7 +64,6 @@ export async function GET(req: Request) {
         banks: bankObj ?? { name: "" },
       };
     });
-    console.log(purchasesSingle);
     return new Response(JSON.stringify({ purchases: purchasesSingle }), { status: 200 });
   } catch (err: unknown) {
     return new Response(JSON.stringify({ error: (err as Error).message }), { status: 500 });

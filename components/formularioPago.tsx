@@ -43,6 +43,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedBanco, setSelectedBanco] = useState(bancos[0]);
   const [moneda, setMoneda] = useState(bancos[0].moneda);
+  const [loading, setLoading] = useState(false);
   const handleBancChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const bancoId = Number(e.target.value); // Convertimos a número
     const banco = bancos.find(b => b.id === bancoId);
@@ -84,7 +85,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
     setArchivo(file); // 🔹 guardamos el archivo para enviarlo
   }
   const onSubmit = async (datos: FormData) => {
-    if (tickets < 2 || tickets >= 100) {
+    if (tickets < 2 || tickets > 100) {
       Swal.fire({
         icon: "error",
         text: "No puedes comprar menos de 2 tickets o mas de 100 tickets",
@@ -98,6 +99,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
       });
       return;
     }
+    setLoading(true); // 🔹 empieza el loading
     const formData = new FormData();
     formData.append('archivo', archivo);
     try {
@@ -168,6 +170,8 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
 
     } catch (error) {
       console.error("Error al subir imagen:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -318,10 +322,11 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
       </div>
 
       <button
+      disabled={loading}
         type="submit"
         className="w-full bg-red-600 dark:bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-500 dark:hover:bg-red-400 transition-colors duration-300"
       >
-        Enviar
+        {loading ? "Enviando..." : "Enviar"}
       </button>
     </form>
   );
