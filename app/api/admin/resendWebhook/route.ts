@@ -10,7 +10,11 @@ export async function POST(req: NextRequest) {
     const secret = process.env.RESEND_WEBHOOK_SECRET! as string;
     const hmac = crypto.createHmac("sha256", secret).update(rawBody, "utf8").digest("hex");
     const digest = `sha256=${hmac}`;
-
+    
+    console.log("Firma recibida:", signature);
+    console.log("Firma calculada:", digest);
+    console.log("Raw body:", rawBody);
+    
     if(digest !== signature) {
       console.error("❌ Firma no valida");
       return NextResponse.json({ error: "Firma no valida" }, { status: 401 });
