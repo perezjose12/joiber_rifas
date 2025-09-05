@@ -6,9 +6,8 @@ import { supabaseServer } from "@/lib/supabaseServer";
 function verifySignature(payload: string, signature: string) {
   const secret = process.env.RESEND_WEBHOOK_SECRET!;
   const hmac = crypto.createHmac("sha256", secret).update(payload).digest("hex");
-  return hmac === signature;
+  return hmac.trim().toLowerCase() === signature.trim().toLowerCase();
 }
-
 export async function POST(req: NextRequest) {
   try {
     const signature = req.headers.get("resend-signature") || "";
