@@ -11,15 +11,16 @@ export async function POST(req: NextRequest) {
     const hmac = crypto.createHmac("sha256", secret).update(rawBody, "utf8").digest("hex");
     const digest = `sha256=${hmac}`;
 
-    if(digest !== signature) {
+    if (digest !== signature) {
       console.error("❌ Firma no valida");
       return NextResponse.json({ error: "Firma no valida" }, { status: 401 });
     }
     // Parsear JSON
-    const body = JSON.parse(rawBody);
-    const { type, data } = body;
+    //const body = JSON.parse(rawBody);
+    //const { type, data } = body;
 
     // Insert en Supabase
+    /*
     const { error } = await supabaseServer.from("resend_events").insert([
       {
         event_type: type,
@@ -28,6 +29,14 @@ export async function POST(req: NextRequest) {
         subject: data?.subject || "",
         status: data?.status || "pending",
         payload: JSON.stringify(data),
+      },
+    ]);*/
+    const { error } = await supabaseServer.from("resend_logs").insert([
+      {
+        headers: Object.fromEntries(req.headers),
+        signature_received: signature,
+        signature_calculated: digest,
+        raw_body: JSON.parse(rawBody),
       },
     ]);
 
