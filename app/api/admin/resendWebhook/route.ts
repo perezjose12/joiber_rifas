@@ -11,10 +11,6 @@ export async function POST(req: NextRequest) {
     const hmac = crypto.createHmac("sha256", secret).update(rawBody, "utf8").digest("hex");
     const digest = `sha256=${hmac}`;
 
-    if (digest !== signature) {
-      console.error("❌ Firma no valida");
-      return NextResponse.json({ error: "Firma no valida" }, { status: 401 });
-    }
     // Parsear JSON
     //const body = JSON.parse(rawBody);
     //const { type, data } = body;
