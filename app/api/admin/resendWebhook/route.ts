@@ -2,23 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-// 🛡️ Verificación de firma
-function verifySignature(payload: string, signature: string) {
-  const secret = process.env.RESEND_WEBHOOK_SECRET!;
-  const hmac = crypto.createHmac("sha256", secret).update(payload).digest("hex");
-  return hmac.trim().toLowerCase() === signature.trim().toLowerCase();
-}
 export async function POST(req: NextRequest) {
   try {
     const signature = req.headers.get("resend-signature") || "";
     const rawBody = await req.text();
 
-    // 🔒 Verificar firma
-    if (!verifySignature(rawBody, signature)) {
-      console.warn("⚠️ Firma inválida");
-      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-    }
+    const secret = process.env.RESEND_WEBHOOK_SECRET! as string;
+    const hmac = crypto.createHmac("sha256", secret).update(rawBody, "utf8").digest("hex");
+    const digest = `sha256=${hmac}`;
 
+    if(digest !== signature) {
+      console.error("❌ Firma no valida");
+      return NextResponse.json({ error: "Firma no valida" }, { status: 401 });
+    }
     // Parsear JSON
     const body = JSON.parse(rawBody);
     const { type, data } = body;
