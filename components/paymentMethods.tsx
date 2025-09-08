@@ -66,7 +66,7 @@ export function PaymentMethods() {
     setInputValue(String(clamped));
     setError(validate(String(clamped)));
   }
-  const tasa_ves = 215.00;
+  const tasa_ves = 190.00;
   const metodos: Metodo[] = [
     {
       id: "bancoVenezuela",
@@ -113,9 +113,9 @@ export function PaymentMethods() {
   const calcularTotal = (metodoId: string) => {
     switch (metodoId) {
       case "bancoVenezuela":
-        return (tickets * ticketPrice * Number((tasa_ves) || 215.00)).toFixed(2);
+        return (tickets * ticketPrice * Number((tasa_ves) || 190.00)).toFixed(2);
       case "bancolombia":
-        return (tickets * 5000).toFixed(2);
+        return (tickets * 4000).toFixed(2);
       case "zelle":
         return (tickets * ticketPrice);
       case "binance":

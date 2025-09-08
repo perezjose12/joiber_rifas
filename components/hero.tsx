@@ -21,7 +21,11 @@ export function Hero() {
           </h1>
 
           <Swiper />
-      
+          <div className="mt-20">
+            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+              <span className="font-semibold text-gray-800 dark:text-gray-100">Reloj Apple Watch ⌚</span> para el que más tickets compre en todo el evento.
+            </p>
+          </div>
           <div className="mt-20">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
