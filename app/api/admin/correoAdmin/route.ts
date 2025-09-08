@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { getFechaHoyFormateada } from "@/lib/getFecha"; 
 const resend = new Resend(process.env.RESEND_API_KEY);
 // Define la interface
 export async function POST(req: Request) {
@@ -13,15 +14,30 @@ export async function POST(req: Request) {
         const data = await req.json();
         const status = data.p_status;
         const ticketNumbers = Array.isArray(data.p_tickets) ? data.p_tickets : [];
-
+        const ticketsHtml = ticketNumbers.length
+            ? ticketNumbers
+                .map(
+                    (ticket: string, i: number) =>
+                        `<div style="margin-bottom: 8px; background: #36373d; color: #fff; border-radius: 5px; padding: 10px;">
+             🎟️ Ticket ${i + 1}: <strong>${ticket}</strong>
+           </div>`
+                )
+                .join("")
+            : "<p>No hay números comprados</p>";
         let html = "";
         if (status === "approved") {
             html = `
-      <h2>🎉 Pedido de compra de tickets aceptado</h2>
-      <p><strong>Reserva ID: </strong> ${data.p_payment_ref}</p>
-      <p><strong>Números comprados:</strong> ${ticketNumbers.join(", ") || "No hay números"}</p>
-      <hr>
-      <p>⚠️ Juega apenas se venda el 100% de los números. Todo depende de ustedes!!</p>
+      <div style="font-family: Arial, sans-serif; color: #333; text-align: center;">
+        <p>¡Hola <strong>${data.p_name}</strong>! Gracias por tu compra en las rifas JyM 🏆</p>
+        <h1 style="color: #27F52E; font-size: 16.5px; padding-top: 20px">✅ ¡Felicidades, tus tickets han sido aprobados con éxito!</h1>
+        <p style="padding-top: 20px;">✉️ <strong>Correo:</strong> ${data.p_email}</p>
+        <p style="padding-top: 20px;">📅 <strong>Fecha de aprobación:</strong> ${getFechaHoyFormateada()}</p>
+        <p style="padding-top: 20px;">Tickets comprados ${ticketNumbers.length}:</p>
+        ${ticketsHtml}
+        <p style="font-weight: bold; margin-top: 20px; padding-top: 20px;">
+            ⚠️ Juega apenas se venda el 100% de los números. ¡Todo depende de ustedes!
+        </p>
+        </div>
     `;
         } else {
             html = `

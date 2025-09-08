@@ -1,6 +1,7 @@
 import { Gift } from "lucide-react";
 import Swiper from "./swiper";
 import Image from "next/image";
+
 export function Hero() {
   return (
     <section id="inicio" className="py-10 px-4 dark:bg-gray-900">
@@ -36,8 +37,6 @@ export function Hero() {
           <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mt-6">
             Juega apenas se venda el 100% de los números. Todo depende de ustedes!!
           </p>
-
-
         </div>
       </div>
     </section>

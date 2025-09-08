@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 interface AcceptReservationButtonProps {
     purchaseId: number;
     p_status: string;
+    p_name: string;
     p_email: string;
     p_payment_ref: string;
     p_proof_url: string;
@@ -14,7 +15,7 @@ interface Ticket {
     numero: number;
 }
 
-export default function AcceptReservationButton({ purchaseId, p_status, p_email, p_payment_ref, p_proof_url }: AcceptReservationButtonProps) {
+export default function AcceptReservationButton({ purchaseId, p_status,p_name, p_email, p_payment_ref, p_proof_url }: AcceptReservationButtonProps) {
     const [loading, setLoading] = useState(false);
 
     const handleAccept = async () => {
@@ -52,6 +53,7 @@ export default function AcceptReservationButton({ purchaseId, p_status, p_email,
                 body: JSON.stringify({
                     p_status: p_status,
                     p_tickets: tickets?.map(t => t.numero) ?? [],
+                    p_name: p_name,
                     p_email: p_email,
                     p_payment_ref: p_payment_ref
                 }),

@@ -185,6 +185,7 @@ export default function AdminPurchasesPage() {
                                 <AcceptReservationButton
                                     purchaseId={p.id}
                                     p_status="approved"
+                                    p_name={p.users.name}
                                     p_email={p.users.email}
                                     p_payment_ref={p.payment_ref}
                                     p_proof_url={p.proof_url ?? ""}
