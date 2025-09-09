@@ -278,6 +278,38 @@ export function PaymentMethods() {
       </div>
       <FormularioPago tickets={tickets} tasaVes={tasa_ves} />
       <VerifyTicket />
+      <div className="flex justify-center items-center gap-8 mt-12">
+        <div className="w-18 h-18 relative">
+          <a href="https://tripletachira.com/" target="_blank" className="cursor-pointer">
+            <Image
+              src="/img/tachira_logo.png"
+              alt="tachira logo"
+              fill
+              className="object-contain"
+            />
+          </a>
+        </div>
+        <div className="w-30 h-30 relative">
+          <a href="https://supergana.com.ve/" target="_blank" className="cursor-pointer">
+            <Image
+              src="/img/super_gana.png"
+              alt="Super Gana"
+              fill
+              className="object-contain"
+            />
+          </a>
+        </div>
+        <div className="w-30 h-30 relative">
+          <a href="https://www.instagram.com/conalot_ve/" target="_blank" className="cursor-pointer">
+            <Image
+              src="/img/conalot.png"
+              alt="Conalot"
+              fill
+              className="object-contain"
+            />
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
