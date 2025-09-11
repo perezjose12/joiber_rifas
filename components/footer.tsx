@@ -25,7 +25,7 @@ export function Footer() {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Link href="https://www.facebook.com/JoiberSevillano" target="_blank">
+                <Link href="#">
                   <Facebook className="h-7 w-7 text-blue-400" />
                 </Link>
               </div>

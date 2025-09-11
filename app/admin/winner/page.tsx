@@ -91,7 +91,7 @@ export default function AdminWinnerPage() {
                 <button
                     onClick={handleCreate}
                     disabled={loadingPremium}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700"
+                    className="px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 mt-3 mb-5"
                 >
                     {loadingPremium ? "Creando..." : "Crear Tickets Premium"}
                 </button>
