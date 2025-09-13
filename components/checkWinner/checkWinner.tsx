@@ -15,7 +15,7 @@ type Purchase = {
 
 type Ticket = {
     id: number;
-    numero: number;
+    numero: string;
     is_winner: boolean;
     purchase_id: number | null;
     purchases: Purchase | null;
@@ -40,7 +40,7 @@ export default function CheckWinner({ raffleId }: { raffleId: number }) {
             const res = await fetch("/api/admin/checkWinner", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ numero: parseInt(numero), raffleId }),
+                body: JSON.stringify({ numero: numero, raffleId }),
             });
 
             const data = await res.json();
@@ -61,7 +61,7 @@ export default function CheckWinner({ raffleId }: { raffleId: number }) {
         <section className="p-4 border rounded-xl shadow-md">
             <h2 className="text-lg font-bold mb-2">Buscar Ticket Ganador</h2>
             <input
-                type="number"
+                type="text"
                 value={numero}
                 onChange={(e) => setNumero(e.target.value)}
                 placeholder="Número del ticket"
@@ -81,9 +81,7 @@ export default function CheckWinner({ raffleId }: { raffleId: number }) {
 
             {resultado && "ticket" in resultado && (
                 <div className="mt-3 p-3 border rounded bg-gray-50 dark:bg-gray-800">
-                    <p>
-                        Ticket #{resultado.ticket.numero}
-                    </p>
+                   <p>{`Ticket #${resultado.ticket.numero}`}</p>
                     {resultado.ticket.purchases?.users ?(
                         <div className="mt-2">
                             <p><b>Nombre:</b> {resultado.ticket.purchases.users.name}</p>
@@ -94,10 +92,6 @@ export default function CheckWinner({ raffleId }: { raffleId: number }) {
                         <p className="mt-2 text-red-600">Ticket todavia no comprado</p>
                     )}
                 </div>
-            )}
-
-            {resultado && "error" in resultado && (
-                <p className="mt-3 text-red-600">{resultado.error}</p>
             )}
         </section>
     );
