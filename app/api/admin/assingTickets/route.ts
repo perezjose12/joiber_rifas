@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
       .from("purchases")
       .update({
         proof_url: null,
-        status: 'approved'
       })
       .eq("id", purchaseId);
 
