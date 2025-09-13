@@ -39,7 +39,7 @@ export default function HomePage() {
     async function fetchProgress() {
       const data = await getRaffleProgress(raffleId);
 
-      const porcentaje = data.total > 0 ? Math.round((data.vendidos / data.total) * 100) : 0;
+      const porcentaje = data.total > 0 ? Math.floor((data.vendidos / data.total) * 100) : 0;
       setProgress({ ...data, porcentaje_vendido: porcentaje });
 
       setLoading(false); // quitar splash solo cuando se cargue la rifa
@@ -48,7 +48,8 @@ export default function HomePage() {
     fetchProgress();
   }, [raffleId]);
 
-  const isSoldOut = progress.porcentaje_vendido >= 100;
+  const porcentaje = progress.porcentaje_vendido;
+  const isSoldOut = porcentaje >= 100;
 
   useLockBodyScroll(isSoldOut);
 
@@ -62,7 +63,7 @@ export default function HomePage() {
         <PaymentMethods />
       </main>
       <Footer />
-      {isSoldOut &&(
+      {isSoldOut && (
         <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center text-white z-50">
           <Image
             src="/img/logo_2.png"

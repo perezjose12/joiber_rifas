@@ -10,7 +10,7 @@ export default function RaffleProgress({ raffleId }: { raffleId: number }) {
   }, [raffleId]);
 
   const percentage = progress.total > 0 
-    ? Math.round((progress.vendidos / progress.total) * 100) 
+    ? Math.floor((progress.vendidos / progress.total) * 100) 
     : 0;
 
   return (
