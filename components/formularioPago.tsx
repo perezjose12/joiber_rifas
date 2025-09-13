@@ -139,8 +139,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
               p_moneda_pago: moneda,
               p_total_amount: Number(totalAmount)
             };
-            console.log(bodyTwo);
-            /*
+            
             const enviarCorreoRes = await fetch('/api/correo', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -149,7 +148,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
 
             if (!enviarCorreoRes.ok) {
               console.error("Error enviando correo");
-            }*/
+            }
             Swal.fire({
               title: "¡Enviado!",
               text: "Tus datos se enviaron correctamente y pendiente de revisión",
