@@ -79,7 +79,7 @@ export default function AdminWinnerPage() {
                     <ul>
                         {premiumTickets.map((t, index) => (
                             <li key={`${t.id}-${index}`}>
-                                <p>Ticket Nº {t.numero}</p>
+                                <p className="mt-3">Ticket Nº {t.numero}</p>
                                 <p>{t.purchases?.users?.name ?? ""}</p>
                                 <p>{t.purchases?.users?.email ?? ""}</p>
                                 <p>{t.purchases?.users?.phone ?? ""}</p>

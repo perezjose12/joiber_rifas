@@ -15,7 +15,7 @@ interface Ticket {
     numero: number;
 }
 
-export default function AcceptReservationButton({ purchaseId, p_status,p_name, p_email, p_payment_ref, p_proof_url }: AcceptReservationButtonProps) {
+export default function AcceptReservationButton({ purchaseId, p_status, p_name, p_email, p_payment_ref, p_proof_url }: AcceptReservationButtonProps) {
     const [loading, setLoading] = useState(false);
 
     const handleAccept = async () => {
@@ -39,20 +39,26 @@ export default function AcceptReservationButton({ purchaseId, p_status,p_name, p
             });
 
             const dataTickets = await resTickets.json();
-
             if (!resTickets.ok) {
-                throw new Error(dataTickets.error || "Error asignando tickets");
+                Swal.fire({
+                    title: "Error",
+                    text: dataTickets.error || "Ocurrió un error al enviar tu compra",
+                    icon: "error",
+                    confirmButtonText: "Aceptar"
+                });
+                return;
             }
             // Aseguramos que tickets sea siempre array
             const tickets: Ticket[] = dataTickets.tickets ?? [];
-
+            console.log(p_status, p_name, p_email, p_payment_ref)
+            /*
             // 1️⃣ Enviar correo con Resend
             const resCorreo = await fetch("/api/admin/correoAdmin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     p_status: p_status,
-                    p_tickets: tickets?.map(t => t.numero) ?? [],
+                    p_tickets: tickets?.map(t => t.numero.toString().padStart(4, "0")) ?? [],
                     p_name: p_name,
                     p_email: p_email,
                     p_payment_ref: p_payment_ref
@@ -61,7 +67,7 @@ export default function AcceptReservationButton({ purchaseId, p_status,p_name, p
             const dataCorreo = await resCorreo.json();
             if (!resCorreo.ok) {
                 throw new Error(dataCorreo.error || "Error enviando correo");
-            }
+            }*/
             const res = await fetch('/api/admin/deleteImg', {
                 method: 'POST',
                 body: JSON.stringify({ imageUrl: p_proof_url }),
@@ -79,12 +85,12 @@ export default function AcceptReservationButton({ purchaseId, p_status,p_name, p
             await Swal.fire({
                 title: "¡Aceptado con éxito!",
                 text: tickets.length
-                    ? `Tickets asignados: ${tickets.map((t) => t.numero).join(", ")}`
+                    ? `Tickets asignados: ${tickets.map((t) => t.numero.toString().padStart(4, "0")).join(", ")}`
                     : "No se asignaron tickets (ya no había disponibles)",
                 icon: "success",
                 confirmButtonText: "Aceptar"
             });
-            
+
             window.location.reload();
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Error en la petición";

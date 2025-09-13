@@ -14,7 +14,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex justify-center items-center">
-            <div className="w-[70px] h-[70px] flex items-center justify-center rounded-full bg-black dark:bg-transparent
+            <div className="w-[60px] h-[60px] flex items-center justify-center rounded-full bg-black dark:bg-transparent
                     pl-1">
               <Link href="/">
                 <Image
@@ -31,15 +31,15 @@ export function Header() {
           {/* Navegación Desktop */}
           <ThemeSwitcher />
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#inicio" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+            <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
               Inicio
-            </a>
-            <a href="#rifas" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+            </Link>
+            <Link href="#metodosPago" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
               Rifas
-            </a>
-            <a href="#contacto" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+            </Link>
+            <Link href="#contacto" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
               Contacto
-            </a>
+            </Link>
           </nav>
 
           {/* Botón menú móvil */}
@@ -51,14 +51,14 @@ export function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>
-                  <a href="#inicio">Inicio</a>
+                <DropdownMenuItem asChild>
+                  <Link href="/">Inicio</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <a href="#rifas">Rifas</a>
+                <DropdownMenuItem asChild>
+                  <Link href="/#metodosPago">Rifas</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <a href="#contacto">Contacto</a>
+                <DropdownMenuItem asChild>
+                  <Link href="/#contacto">Contacto</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

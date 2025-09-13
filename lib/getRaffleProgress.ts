@@ -1,12 +1,14 @@
 import { supabasePublic } from "./supabasePublic";
+
 export async function getRaffleProgress(raffleId: number) {
-  const { data, error } = await supabasePublic.rpc("get_raffle_progress", { rid: raffleId });
+  const { data, error } = await supabasePublic
+    .rpc("get_raffle_progress", { rid: raffleId });
 
   if (error) {
     console.error("Error obteniendo progreso:", error);
-    return null;
+    return { total: 0, vendidos: 0, disponibles: 0, porcentaje_vendido: 0 };
   }
 
   // data es un array con 1 fila [{ total, vendidos, disponibles }]
-  return data?.[0] ?? null;
+  return data?.[0] ?? { total: 0, vendidos: 0, disponibles: 0, porcentaje_vendido: 0 };
 }

@@ -4,6 +4,7 @@ import { Space_Grotesk, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "next-themes";
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default  function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -67,7 +68,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-sans">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           <Analytics />
         </ThemeProvider>

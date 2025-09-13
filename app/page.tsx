@@ -6,19 +6,55 @@ import { PaymentMethods } from "@/components/paymentMethods"
 import { Footer } from "@/components/footer"
 import SplashLoader from "@/components/SplashLoader";
 import { useEffect, useState } from "react";
+import { getRaffleProgress } from "@/lib/getRaffleProgress";
+import Image from "next/image"
+
+function useLockBodyScroll(lock: boolean) {
+  useEffect(() => {
+    if (lock) {
+      document.body.style.overflow = "hidden"
+      document.documentElement.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
+    }
+  }, [lock])
+}
+
 export default function HomePage() {
+  const raffleId = 1;
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState({
+    total: 0,
+    vendidos: 0,
+    disponibles: 0,
+    porcentaje_vendido: 0,
+  });
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500); 
-    return () => clearTimeout(timer);
-  }, []);
+    async function fetchProgress() {
+      const data = await getRaffleProgress(raffleId);
 
-  if (loading) {
-    return <SplashLoader />; 
-  }
+      const porcentaje = data.total > 0 ? Math.round((data.vendidos / data.total) * 100) : 0;
+      setProgress({ ...data, porcentaje_vendido: porcentaje });
+
+      setLoading(false); // quitar splash solo cuando se cargue la rifa
+    }
+
+    fetchProgress();
+  }, [raffleId]);
+
+  const isSoldOut = progress.porcentaje_vendido >= 100;
+
+  useLockBodyScroll(isSoldOut);
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {loading && isSoldOut && <SplashLoader />}
       <Header />
       <main>
         <Hero />
@@ -26,6 +62,18 @@ export default function HomePage() {
         <PaymentMethods />
       </main>
       <Footer />
+      {isSoldOut &&(
+        <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center text-white z-50">
+          <Image
+            src="/img/logo_2.png"
+            alt="Logo Rifas JyM"
+            width={200}
+            height={200}
+            className="border border-gray-500 rounded-full bg-black w-26 h-26 object-cover pl-1"
+          />
+          <h1 className="text-4xl font-bold mt-4">Plataforma cerrada</h1>
+        </div>
+      )}
     </div>
   )
 }

@@ -14,7 +14,7 @@ type Metodo = {
 
 export function PaymentMethods() {
   const [open, setOpen] = useState<string | null>(null);
-  const ticketPrice = 1;
+  const ticketPrice = 0.80;
   const [tickets, setTickets] = useState(2);
   const [inputValue, setInputValue] = useState("2");
   const maxTickets = 100;
@@ -117,9 +117,9 @@ export function PaymentMethods() {
       case "bancolombia":
         return (tickets * 4000).toFixed(2);
       case "zelle":
-        return (tickets * ticketPrice);
+        return (tickets * ticketPrice).toFixed(2);
       case "binance":
-        return (tickets * ticketPrice);
+        return (tickets * ticketPrice).toFixed(2);
       default:
         return "";
     }
@@ -156,7 +156,7 @@ export function PaymentMethods() {
 
         <div className="flex flex-col items-center justify-center p-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">COMPRAR TUS TICKETS</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300 font-bold">Cada ticket cuesta $1</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 font-bold">Cada ticket cuesta $0.80</p>
           <p className="text-sm text-gray-600 dark:text-gray-300">
             Mínimo {minTickets} y Máximo {maxTickets} Tickets por Compra
           </p>

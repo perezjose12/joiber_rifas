@@ -5,12 +5,11 @@ import { authOptions } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
-    if (!session) {
-      return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
-    }
+  if (!session) {
+    return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
+  }
   try {
     const { purchaseId } = await req.json();
-
     if (!purchaseId) {
       return NextResponse.json(
         { error: "purchaseId es requerido" },
@@ -18,26 +17,31 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Llamada a la función SQL, que ahora devuelve los tickets asignados
     const { data: tickets, error: rpcError } = await supabaseServer
       .rpc("assign_tickets_to_purchase", { p_purchase_id: purchaseId });
 
     if (rpcError) throw rpcError;
-    // Actualizamos la compra (ejemplo: limpiar proof_url)
-
+    const assignedTickets = Array.isArray(tickets) ? tickets : [];
+    if (assignedTickets.length === 0) {
+      console.warn("No se asignaron tickets para esta compra:", purchaseId);
+      return NextResponse.json(
+        { error: "No se asignaron tickets para esta compra" },
+        { status: 400 }
+      );
+    }
     await supabaseServer
       .from("purchases")
       .update({
-        proof_url: null,   
-        status: 'approved' 
+        proof_url: null,
+        status: 'approved'
       })
       .eq("id", purchaseId);
-    const assignedTickets = Array.isArray(tickets) ? tickets : [];
+
 
     return NextResponse.json({ tickets: assignedTickets });
 
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Error desconocido";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return new Response(JSON.stringify({ error: message }), { status: 500 });
   }
 }

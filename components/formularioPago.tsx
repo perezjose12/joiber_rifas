@@ -28,11 +28,11 @@ const calcularTotal = (metodoId: number, tickets: number, ticketPrice: number, t
     case 1:
       return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2);
     case 2:
-      return (tickets * 4000).toFixed(3);
+      return (tickets * 4000).toFixed(2);
     case 3:
-      return (tickets * ticketPrice);
+      return (tickets * ticketPrice).toFixed(2);
     case 4:
-      return (tickets * ticketPrice);
+      return (tickets * ticketPrice).toFixed(2);
     default:
       return "";
   }
@@ -108,7 +108,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
         body: formData,
       });
       const data = await res.json();
-      const totalAmount = calcularTotal(selectedBanco.id, tickets, 1, tasaVes || 1);
+      const totalAmount = calcularTotal(selectedBanco.id, tickets, 0.80, tasaVes || 190.00);
       if (res.ok && data.url) {
         setPreview(null);
         try {
@@ -129,8 +129,9 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
           });
+          const result = await reservarRes.json();
           if (reservarRes.ok) {
-            const totalAmount = calcularTotal(selectedBanco.id, tickets, 1, tasaVes || 1);
+            const totalAmount = calcularTotal(selectedBanco.id, tickets, 0.80, tasaVes || 190.00);
             const bodyTwo = {
               p_tickets: tickets,
               p_payment_ref: datos.numberCompra,
@@ -138,6 +139,8 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
               p_moneda_pago: moneda,
               p_total_amount: Number(totalAmount)
             };
+            console.log(bodyTwo);
+            /*
             const enviarCorreoRes = await fetch('/api/correo', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -146,7 +149,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
 
             if (!enviarCorreoRes.ok) {
               console.error("Error enviando correo");
-            } 
+            }*/
             Swal.fire({
               title: "¡Enviado!",
               text: "Tus datos se enviaron correctamente y pendiente de revisión",
@@ -155,6 +158,13 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
             });
             reset();
             setPreview(null);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: result.error || "Ocurrió un error al enviar tu compra",
+              icon: "error",
+              confirmButtonText: "Aceptar"
+            });
           }
         } catch (error) {
           console.error('Error reservando tickets:', error);
@@ -322,7 +332,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
       </div>
 
       <button
-      disabled={loading}
+        disabled={loading}
         type="submit"
         className="w-full bg-red-600 dark:bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-500 dark:hover:bg-red-400 transition-colors duration-300"
       >

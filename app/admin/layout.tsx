@@ -1,7 +1,9 @@
 "use client"
+
 import { AdminHeader } from "@/components/admin/adminHeader"
 import { ReactNode } from "react"
 import { SessionProvider } from "next-auth/react"
+
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <SessionProvider>

@@ -27,18 +27,18 @@ export default function swiper(){
             >
                 <SwiperSlide>
                     <Image
-                        src="/kbr2.png"
+                        src="/img/sbr_iphone_1.jpeg"
                         alt="Productos de la rifa 1"
-                        className="w-full h-80 md:h-80"
+                        className="w-full h-100 md:h-150 object-fill"
                         width={500}
                         height={500}
                     />
                 </SwiperSlide>
                 <SwiperSlide>
                     <Image
-                        src="/iphone16.png"
+                        src="/img/sbr_iphone_2.jpeg"
                         alt="Productos de la rifa 2"
-                        className="w-full h-80 md:h-80"
+                        className="w-full h-100 md:h-150 object-fill"
                         width={500}
                         height={500}
                     />
