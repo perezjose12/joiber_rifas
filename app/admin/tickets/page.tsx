@@ -70,23 +70,42 @@ export default function AdminPurchasesPage() {
                     </select>
                 </div>
                 <ul className="space-y-4">
-                    {users.filter(
-                        (user): user is UserTickets & { ticket_numbers: number[] } =>
-                            Array.isArray(user.ticket_numbers) &&
-                            user.ticket_numbers.filter((n) => n != null).length > 0
-                    ).map((user, index) => (
-                        <li
-                            key={`${user.user_id}-${index}`}
-                            className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm"
-                        >
-                            <h3 className="font-semibold">
-                                {user.user_name} ({user.user_email})
-                            </h3>
-                            <p>
-                                <strong>Números:</strong> {(user.ticket_numbers ?? []).join(", ")}
-                            </p>
-                        </li>
-                    ))}
+                    {(() => {
+                        // Calculamos el máximo de tickets entre los usuarios
+                        const maxTickets = Math.max(
+                            ...users.map(u => (u.ticket_numbers?.length ?? 0))
+                        );
+
+                        return users
+                            .filter(
+                                (user): user is UserTickets & { ticket_numbers: number[] } =>
+                                    Array.isArray(user.ticket_numbers) &&
+                                    user.ticket_numbers.filter(n => n != null).length > 0
+                            )
+                            .map((user, index) => (
+                                <li
+                                    key={`${user.user_id}-${index}`}
+                                    className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm"
+                                >
+                                    <h3 className="font-semibold">
+                                        {user.user_name} ({user.user_email})
+                                    </h3>
+                                    <div className="w-full bg-gray-200 rounded h-6 relative">
+                                        <div
+                                            className="bg-blue-600 h-6 rounded px-2 text-white flex items-center justify-end overflow-hidden"
+                                            style={{
+                                                width: `${maxTickets > 0
+                                                        ? ((user.ticket_numbers?.length ?? 0) / maxTickets) * 100
+                                                        : 0
+                                                    }%`
+                                            }}
+                                        >
+                                            {user.ticket_numbers?.length ?? 0}
+                                        </div>
+                                    </div>
+                                </li>
+                            ));
+                    })()}
                 </ul>
                 {hasMore && (
                     <button
