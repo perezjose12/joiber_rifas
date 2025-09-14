@@ -26,7 +26,7 @@ const bancos = [
 const calcularTotal = (metodoId: number, tickets: number, ticketPrice: number, tasa_ves: number) => {
   switch (metodoId) {
     case 1:
-      return (tickets * ticketPrice * (tasa_ves || 1)).toFixed(2);
+      return (tickets * tasa_ves).toFixed(2);
     case 2:
       return (tickets * 4000).toFixed(2);
     case 3:

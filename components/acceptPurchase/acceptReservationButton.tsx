@@ -50,8 +50,7 @@ export default function AcceptReservationButton({ purchaseId, p_status, p_name, 
             }
             // Aseguramos que tickets sea siempre array
             const tickets: Ticket[] = dataTickets.tickets ?? [];
-            console.log(p_status, tickets, p_name, p_email, p_payment_ref);
-             /*
+            
             const resCorreo = await fetch("/api/admin/correoAdmin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -68,7 +67,6 @@ export default function AcceptReservationButton({ purchaseId, p_status, p_name, 
             if (!resCorreo.ok) {
                 throw new Error(dataCorreo.error || "Error enviando correo");
             }
-                   */
             const res = await fetch('/api/admin/deleteImg', {
                 method: 'POST',
                 body: JSON.stringify({ imageUrl: p_proof_url }),

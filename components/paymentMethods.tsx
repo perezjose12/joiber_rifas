@@ -113,7 +113,7 @@ export function PaymentMethods() {
   const calcularTotal = (metodoId: string) => {
     switch (metodoId) {
       case "bancoVenezuela":
-        return (tickets * ticketPrice * Number((tasa_ves) || 190.00)).toFixed(2);
+        return (tickets * tasa_ves).toFixed(2);
       case "bancolombia":
         return (tickets * 4000).toFixed(2);
       case "zelle":
