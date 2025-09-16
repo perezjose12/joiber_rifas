@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "Rifas JyM",
     images: [
       {
-        url: "/description.png", // crea una imagen 1200x630 px en /public
+        url: "/description-3.png", // crea una imagen 1200x630 px en /public
         width: 1200,
         height: 630,
         alt: "Rifas JyM - Sorteos y premios",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Rifas JyM - Participa y gana increíbles premios",
     description: "Participa en rifas y sorteos semanales en Rifas JyM y gana premios exclusivos.",
-    images: ["/description.png"],
+    images: ["/description-3.png"],
     site: "@RifasJyM",
     creator: "@RifasJyM",
   },
