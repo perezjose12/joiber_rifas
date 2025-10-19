@@ -221,6 +221,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: "Formato de correo inválido"
             },
+            validate: (value) => !value.toLowerCase().endsWith(".con") || "El dominio '.con' no es válido",
             minLength: {
               value: 5,
               message: "Debe tener al menos 5 caracteres"
