@@ -115,7 +115,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
           const body = {
             p_raffle_id: 1,
             p_tickets: tickets,
-            p_user_email: datos.email,
+            p_user_email: datos.email ? datos.email.toLowerCase() : "",
             p_user_name: datos.name,
             p_user_phone: datos.telefono,
             p_payment_ref: datos.numberCompra,
