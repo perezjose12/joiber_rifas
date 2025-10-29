@@ -139,11 +139,11 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
               p_moneda_pago: moneda,
               p_total_amount: Number(totalAmount)
             };
-            
+
             const enviarCorreoRes = await fetch('/api/correo', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(bodyTwo) 
+              body: JSON.stringify(bodyTwo)
             });
 
             if (!enviarCorreoRes.ok) {
@@ -221,7 +221,11 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: "Formato de correo inválido"
             },
-            validate: (value) => !value.toLowerCase().endsWith(".con") || "El dominio '.con' no es válido",
+            validate: (value) => {
+              const allowedDomains = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "icloud.com"];
+              const domain = value.split("@")[1]?.toLowerCase();
+              return allowedDomains.includes(domain) || `Solo se permiten: ${allowedDomains.join(", ")}`;
+            },
             minLength: {
               value: 5,
               message: "Debe tener al menos 5 caracteres"
