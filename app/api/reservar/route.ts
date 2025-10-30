@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Raffle ID inválido" }, { status: 400 });
     }
 
-    if (!body.p_tickets || typeof body.p_tickets !== "number" || body.p_tickets < 2 || body.p_tickets > 100) {
+    if (!body.p_tickets || typeof body.p_tickets !== "number" || body.p_tickets < 2 || body.p_tickets > 1000) {
       return NextResponse.json({ error: "Número de tickets inválido (mínimo 2, máximo 100)" }, { status: 400 });
     }
 

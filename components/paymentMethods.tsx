@@ -17,11 +17,11 @@ export function PaymentMethods() {
   const ticketPrice = 0.80;
   const [tickets, setTickets] = useState(2);
   const [inputValue, setInputValue] = useState("2");
-  const maxTickets = 100;
+  const maxTickets = 1000;
   const minTickets = 2;
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
   const [error, setError] = useState("");
-  const quickSelect = [2, 5, 10, 20, 30, 50, 70, 100];
+  const quickSelect = [2, 5, 10, 20, 30, 50, 70, 100,500,1000];
   const validate = (val: string) => {
     const num = Number(val);
     if (val === "" || isNaN(num)) return `El número mínimo de tickets es ${minTickets}`;
@@ -171,7 +171,7 @@ export function PaymentMethods() {
               type="number"
               value={inputValue}
               onChange={handleChange}
-              className={`w-16 text-center border rounded px-2 py-1 ${error ? "border-red-900 bg-red-800" : "border-gray-900"}`}
+              className={`w-18 text-center border rounded px-2 py-1 ${error ? "border-red-900 bg-red-800" : "border-gray-900"}`}
               min={minTickets}
               max={maxTickets}
             />
