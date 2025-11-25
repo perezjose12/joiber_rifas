@@ -85,10 +85,10 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
     setArchivo(file); // 🔹 guardamos el archivo para enviarlo
   }
   const onSubmit = async (datos: FormData) => {
-    if (tickets < 2 || tickets > 100) {
+    if (tickets < 2 || tickets > 1000) {
       Swal.fire({
         icon: "error",
-        text: "No puedes comprar menos de 2 tickets o mas de 100 tickets",
+        text: "No puedes comprar menos de 2 tickets o mas de 1000 tickets",
       });
       return;
     }
