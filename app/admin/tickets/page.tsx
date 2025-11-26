@@ -45,6 +45,7 @@ function useTickets(limit = 2, filter: "all" | "today" = "all") {
 
     useEffect(() => {
         fetchTickets(true); // Cargar primera página al montar
+        console.log(users);
     }, [filter]);
 
     return { users, hasMore, loading, fetchTickets };

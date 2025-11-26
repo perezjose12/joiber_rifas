@@ -1,0 +1,40 @@
+import { NextResponse } from "next/server";
+import { supabaseServer } from "@/lib/supabaseServer"; 
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+
+interface RequestQuery {
+  searchParams: {
+    limit?: string;
+    offset?: string;
+  };
+}
+
+export async function GET(req: Request & RequestQuery) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
+  }
+
+  try {
+    const url = new URL(req.url);
+    const limit = parseInt(url.searchParams.get("limit") || "5");
+    const offset = parseInt(url.searchParams.get("offset") || "0");
+
+    // Llamamos a la RPC que devuelve todos los usuarios de hoy
+    const { data, error } = await supabaseServer.rpc("get_top_purchases_today");
+
+    if (error) {
+      console.error("❌ Supabase RPC error:", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    // Paginamos manualmente con slice
+    const safeData = Array.isArray(data) ? data.slice(offset, offset + limit) : [];
+
+    return NextResponse.json({ data: safeData }, { status: 200 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Error desconocido";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}

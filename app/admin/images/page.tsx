@@ -169,6 +169,7 @@ export default function AdminPurchasesPage() {
                         <p>
                             Total pagado: {p.total_amount} {p.moneda_pago}
                         </p>
+                        <p>Referencia de pago: {p.payment_ref}</p>
                         <p>Banco: {p.banks.name}</p>
 
                         {p.proof_url && (

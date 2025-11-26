@@ -50,6 +50,9 @@ export function AdminHeader() {
           <Link href="/admin/winner" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
             Ganadores
           </Link>
+          <Link href="/admin/top" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300">
+            Top
+          </Link>
           <Button
             onClick={() => signOut({ callbackUrl: "/" })}
             className="bg-red-500 hover:bg-red-600 text-white transition-colors"
@@ -81,6 +84,9 @@ export function AdminHeader() {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a href="/admin/winner">Ganadores</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/admin/top">Top</a>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                 🚪 Cerrar sesión
