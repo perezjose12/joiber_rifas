@@ -23,7 +23,7 @@ export function RaffleSection() {
                   <Gift className="h-5 w-5 text-green-600" />
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-gray-100">Precio</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">$0.80 por ticket</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">100 bs por ticket</p>
                   </div>
                 </div>
               </div>

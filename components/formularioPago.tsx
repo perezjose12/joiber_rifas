@@ -108,7 +108,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
         body: formData,
       });
       const data = await res.json();
-      const totalAmount = calcularTotal(selectedBanco.id, tickets, 0.80, tasaVes || 190.00);
+      const totalAmount = calcularTotal(selectedBanco.id, tickets, 0.80, tasaVes || 100.00);
       if (res.ok && data.url) {
         setPreview(null);
         try {
@@ -131,7 +131,7 @@ export default function FormularioPago({ tickets, tasaVes }: FormularioProps) {
           });
           const result = await reservarRes.json();
           if (reservarRes.ok) {
-            const totalAmount = calcularTotal(selectedBanco.id, tickets, 0.80, tasaVes || 190.00);
+            const totalAmount = calcularTotal(selectedBanco.id, tickets, 0.80, tasaVes || 100.00);
             const bodyTwo = {
               p_tickets: tickets,
               p_payment_ref: datos.numberCompra,

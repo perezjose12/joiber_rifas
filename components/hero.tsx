@@ -33,7 +33,7 @@ export function Hero() {
               </div>
               <p className="text-gray-600 dark:text-gray-300">
                 <span className="font-semibold text-gray-800 dark:text-gray-100">
-                  Por tan solo $0.80 por ticket
+                  Por tan solo 100 bs por ticket
                 </span>{" "}
               </p>
             </div>
