@@ -9,7 +9,7 @@ export function RaffleSection() {
           <Card className="overflow-hidden shadow-xl border-0 pt-3 bg-white dark:bg-slate-800 transition-colors duration-500">
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 gap-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 ">
                   <Users className="h-5 w-5 text-amber-600" />
                   <div className="w-full">
                     <p className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
