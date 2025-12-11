@@ -1,6 +1,5 @@
 import { supabaseServer } from "@/lib/supabaseServer";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import {auth} from "@/lib/auth";
 
 // Tipos
 type SupaUser = { name: string; email: string; phone: string };
@@ -18,7 +17,7 @@ type Purchase = {
 };
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) {
     return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
   }

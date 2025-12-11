@@ -1,11 +1,10 @@
 import { Resend } from "resend";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import {auth} from "@/lib/auth";
 import { getFechaHoyFormateada } from "@/lib/getFecha"; 
 const resend = new Resend(process.env.RESEND_API_KEY);
 // Define la interface
 export async function POST(req: Request) {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
         return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
     }

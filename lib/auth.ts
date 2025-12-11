@@ -1,8 +1,7 @@
-import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { DefaultUser } from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -14,9 +13,17 @@ export const authOptions: NextAuthOptions = {
     maxAge: 6 * 60 * 60, // 6 horas
   },
   callbacks: {
-    async signIn({ user }: { user: DefaultUser }) {
-      const emails = process.env.ALLOWED_EMAILS!.split(",");
-      return emails.includes(user.email!);
+    async signIn({ user }) {
+      const allowed = process.env.ALLOWED_EMAILS!.split(",")
+      return allowed.includes(user.email!)
+    },
+
+    authorized({ auth, request }) {
+      // si quieres proteger rutas
+      if (request.nextUrl.pathname.startsWith("/admin")) {
+        return !!auth?.user
+      }
+      return true
     },
   },
-};
+});

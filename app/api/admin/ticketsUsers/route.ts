@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer"; 
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import {auth} from "@/lib/auth";
 interface RequestQuery {
   searchParams: {
     limit?: string;
@@ -11,7 +10,7 @@ interface RequestQuery {
 }
 
 export async function GET(req: Request & RequestQuery) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) {
     return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
   }

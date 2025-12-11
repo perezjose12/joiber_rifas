@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import {auth} from "@/lib/auth";
 
 export async function POST(req: Request) {
     const { raffleId } = await req.json();
@@ -75,7 +74,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
     if (!session) {
       return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
     }
