@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-
+import { NextRequest } from "next/server";
 const resend = new Resend(process.env.RESEND_API_KEY);
 // Define la interface
 interface Banco {
@@ -14,7 +14,7 @@ const bancos: Record<number, Banco> = {
   3: { id: 3, name: "Zelle" },
   4: { id: 4, name: "Binance" },
 };
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     const numeroBanco = data.p_bank_id; // viene de tu body

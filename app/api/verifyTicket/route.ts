@@ -1,6 +1,6 @@
 import { supabaseServer } from '@/lib/supabaseServer'
-
-export async function POST(req: Request) {
+import { NextRequest } from 'next/server'
+export async function POST(req: NextRequest) {
   const { email } = await req.json()
 
   // 1️⃣ Buscar usuario por email
