@@ -1,6 +1,7 @@
 
 import { supabaseServer } from '@/lib/supabaseServer';
-export async function POST(req: Request) {
+import { NextRequest} from 'next/server';
+export async function POST(req: NextRequest) {
     try {
         const { imageUrl } = await req.json();
         const url = new URL(imageUrl);

@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import {auth} from "@/lib/auth";
 // ---------------------- GET ----------------------
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const session = await auth();
     if (!session) {
       return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
   return NextResponse.json({ winners: data });
 }
 // ---------------------- POST ----------------------
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { raffleId, winnerCount } = await req.json();
 
   if (!raffleId) {

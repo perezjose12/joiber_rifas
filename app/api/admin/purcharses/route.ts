@@ -1,6 +1,6 @@
 import { supabaseServer } from "@/lib/supabaseServer";
 import {auth} from "@/lib/auth";
-
+import { NextRequest } from "next/server";
 // Tipos
 type SupaUser = { name: string; email: string; phone: string };
 type SupaBank = { name: string };
@@ -16,7 +16,7 @@ type Purchase = {
   banks: SupaBank;
 };
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const session = await auth();
   if (!session) {
     return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });

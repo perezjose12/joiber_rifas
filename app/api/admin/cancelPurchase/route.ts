@@ -1,6 +1,7 @@
 import { supabaseServer } from '@/lib/supabaseServer'
 import {auth} from "@/lib/auth";
-export async function POST(req: Request) {
+import { NextRequest } from 'next/server';
+export async function POST(req: NextRequest) {
   const session = await auth();
     if (!session) {
       return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401 });
